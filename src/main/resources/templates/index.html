@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://kit.fontawesome.com/979f4e20dd.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Products</title>
+</head>
+<script>
+    function buy(product) {
+        console.log(product)
+        let jsonData = JSON.stringify({
+            product : product
+        })
+        $.ajax({
+            type: 'POST',
+            url: '/addOrder',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: jsonData,
+            success: function (data) {
+                console.log("SUCCESS " + data)
+            },
+            error: function (data) {
+                console.log("ERROR " + data)
+            }
+        })
+    }
+</script>
+<body class="flex full-center">
+<div class="container">
+
+    <div class="card" th:each="product : ${products}">
+        <div class="imgBox">
+            <img src="">
+            <ul class="action">
+                <li th:data-product="${product}" onclick="buy(this.getAttribute('data-product'))" >
+                    <i class="fas fa-cart-arrow-down"></i>
+                    <span>Add to Cart</span>
+                </li>
+                <li>
+                    <i class="fas fa-heart"></i>
+                    <span>Add to Wishlist</span>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="productName">
+                <h3 class="product-title" th:text="${product.name}"></h3>
+            </div>
+            <div class="priceBox">
+                <h2 class="price" th:text="'$'+${product.price}"></h2>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star grey"></i>
+                    <i class="fas fa-star grey"></i>
+                    <i class="fas fa-star grey"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://kit.fontawesome.com/979f4e20dd.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Your order list</title>
+</head>
+<script>
+    function updateList(data) {
+        alert("success");
+
+        let list = "<li>";
+
+        for (let i = 0; i < data.length; i++) {
+
+            list = list +
+                "<span class='id'>Order id" + data[i].order_id + "</span>"+
+                "<span class='name'>" + data[i].product.name + "</span>"+
+                "<span class='price'>" + data[i].product.price + "</span>"+
+                "<span class='address'>" + data[i].address + "</span>"+
+                "<span class='date'>" + data[i].date + "</span>"+
+                "<span class='description'>" + data[i].description + "</span>"+
+                "<span class='buttons'><i class='fas fa-edit'></i></span>"+
+                "<span class='buttons'><i class='fas fa-trash'></i></span>";
+
+        }
+
+        list = list + "<li>";
+
+        $("#orders").html(list);
+    }
+
+    $(document).ready(function () {
+        $.get("/getOrder", updateList(data));
+    })
+</script>
+<body>
+
+<ul class="orders" id="orders">
+    <li>
+        <span class="id">Order id 1</span>
+        <span class="name">Some Product</span>
+        <span class="price">$13.5</span>
+        <span class="address">Some address</span>
+        <span class="date">Date of ordering</span>
+        <span class="description">Your description</span>
+        <span class="buttons"><i class="fas fa-edit"></i></span>
+        <span class="buttons"><i class="fas fa-trash"></i></span>
+    </li>
+</ul>
+
+</body>
+</html>

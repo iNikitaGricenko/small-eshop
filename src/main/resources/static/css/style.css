@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,40,500,600,700,800,900&display=swap');
+:root {
+
+}
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    min-height: 100vh;
+    background-color: #dcdcdc;
+}
+.flex {
+    display: flex;
+}
+.flex.full-center {
+    justify-content: center;
+    align-items: center;
+}
+/* login */
+.section-login {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+.section-login .imgBox {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(225deg, #e91e63, #03a9f4);
+}
+.section-login .contentBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+.section-login .contentBox .formBox {
+    width: 50%;
+}
+.formBox .form-title {
+    color: #607d8b;
+    font-weight: 800;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #ff4584;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+.formBox .inputBox {
+    margin-bottom: 20px;
+}
+.inputBox span {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #607d8b;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+.inputBox input {
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #607d8b;
+    border-radius: 30px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #607d8b;
+    background-color: transparent;
+}
+.inputBox input[type="submit"] {
+    background-color: #ff4584;
+    color: #fff;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+.inputBox input[type="submit"]:hover {
+    background-color: #f53677;
+}
+.inputBox a {
+    color: #ff4584;
+}
+/* login */
+/* product cards */
+.container {
+    position: relative;
+    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+    padding: 20px;
+}
+.card {
+    width: 100%;
+    background-color: #fff;
+}
+.card .imgBox {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    overflow: hidden;
+}
+.card .imgBox img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 500ms ease-in-out;
+    transform-origin: right;
+    background: linear-gradient(225deg, #e91e63, #03a9f4);
+}
+.card:hover .imgBox img {
+    transform: scale(1.5);
+}
+.card .action {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.card .action li {
+    position: relative;
+    list-style: none;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
+    cursor: pointer;
+    transform: translateX(60px);
+    transition: transform 500ms;
+}
+.card .action li:nth-child(2) {
+    transition-delay: 150ms;
+}
+.card .action li:nth-child(3) {
+    transition-delay: 300ms;
+}
+.card:hover .action li {
+    transform: translateX(0px);
+}
+.card .action li:hover {
+    background-color: #ff2020;
+    color: #fff;
+}
+.card .action li span {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%) translateX(-20px);
+    white-space: nowrap;
+    padding: 4px 6px;
+    background-color: #fff;
+    color: #333;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: 500ms;
+}
+.card .action li:hover span {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0px);
+}
+.card .action li span::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    transform: translateY(-50%) rotate(45deg);
+}
+.card .content {
+    padding: 10px;
+}
+.card .content .productName .product-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin: 5px 0;
+}
+.priceBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.priceBox .price {
+    font-size: 20px;
+    color: #ff2020;
+    font-weight: 500;
+}
+.priceBox .fa-star {
+    color: #ffd513;
+    cursor: pointer;
+}
+.priceBox .fa-star.grey {
+    color: #ccc;
+}
+/* product cards */
+
+/* orders list */
+.orders {
+    position: relative;
+    width: 1050px;
+    margin: 100px auto 0;
+    padding: 10px;
+}
+.orders li {
+    display: flex;
+    background-color: #333;
+    padding: 10px 20px;
+    color: #fff;
+    margin: 5px 0;
+    transition: 500ms;
+}
+.orders li:nth-child(1) {
+    background-color: #2b2b2b;
+}
+.orders li .id {
+    width: 30px;
+}
+.orders li .name {
+    width: 200px;
+}
+.orders li .price {
+    width: 100px;
+}
+.orders li .address {
+    width: 300px;
+}
+.orders li .date {
+    width: 100px;
+}
+.orders li .description {
+    width: 400px;
+    white-space: normal;
+}
+.orders li .buttons {
+    width: 70px;
+    text-align: right;
+    cursor: pointer;
+}
+.orders li .buttons:hover {
+    background-color: #2b2b2b;
+    color: #fff;
+}
+.orders li:hover {
+    transform: scale(1.06);
+    background-color: #fff;
+}
+/* orders list */
