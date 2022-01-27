@@ -2,17 +2,16 @@ package com.example.eshop.controller.rest;
 
 import com.example.eshop.dto.OrderDto;
 import com.example.eshop.dto.mapper.OrderMapper;
+import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.product.Order;
 import com.example.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 
 @RestController
@@ -29,7 +28,7 @@ public class OrderRest {
     }
 
     @GetMapping("/{id}")
-    public OrderDto getOne(@PathVariable("id") Long id) throws NotFoundException {
+    public OrderDto getOne(@PathVariable("id") Long id) throws ObjectNotFoundException {
         return orderMapper.toDto(service.getById(id));
     }
 
@@ -48,7 +47,7 @@ public class OrderRest {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public OrderDto edit(@RequestBody OrderDto dto) {
+    public OrderDto edit(@RequestBody OrderDto dto) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
         order = service.editOrder(order);
 

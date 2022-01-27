@@ -1,15 +1,13 @@
 package com.example.eshop.service;
 
+import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.product.Order;
 import com.example.eshop.repository.product.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.springframework.data.crossstore.ChangeSetPersister.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,16 +27,16 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order editOrder(Order order) {
+    public Order editOrder(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
         if(!orderRepository.existsById(id)) {
-            throw new IllegalArgumentException("Order with " + id + " is not exists");
+            throw new ObjectNotFoundException("Order with " + id + " not found");
         }
 
         return orderRepository.save(order);
     }
 
-    public Order getById(Long id) throws NotFoundException {
-        return orderRepository.findById(id).orElseThrow(NotFoundException::new);
+    public Order getById(Long id) throws ObjectNotFoundException {
+        return orderRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 }
