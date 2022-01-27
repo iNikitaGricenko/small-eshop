@@ -1,18 +1,17 @@
 package com.example.eshop.controller;
 
 import com.example.eshop.repository.product.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthorizationController {
 
     private final ProductRepository productRepository;
-
-    public AuthorizationController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     @GetMapping("/login")
      public String getLoginPage(Model model) {

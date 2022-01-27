@@ -33,6 +33,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.4.3</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -66,6 +72,14 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </exclude>
+                        <exclude>
+                            <user>postgres</user>
+                            <password>123456</password>
+                            <schemas>
+                                <schema>schema1</schema>
+                            </schemas>
+                            <url>jdbc:postgresql://localhost:5433/postgres</url>
                         </exclude>
                     </excludes>
                 </configuration>
