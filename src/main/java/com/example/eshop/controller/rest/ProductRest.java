@@ -46,7 +46,7 @@ public class ProductRest {
         service.deleteById(id);
     }
 
-    @PatchMapping()
+    @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public ProductDto edit(@RequestBody ProductDto dto) throws ObjectNotFoundException {
         Product product = mapper.toProduct(dto);
