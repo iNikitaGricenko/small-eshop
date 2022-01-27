@@ -1,20 +1,38 @@
 package com.example.eshop.dto;
 
-import com.example.eshop.dto.ProductDto;
-import com.example.eshop.dto.UserDto;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class OrderDto implements Serializable {
-    private final Long orders_id;
+
+    @NotNull
+    private final Long id;
+
+    @NotNull @Size(max = 200)
     private final String address;
+
+    @Size(max = 1024)
     private final String description;
+
+    @NotNull
+    private final String status;
+
+    @Min(1)
     private final int count;
+
+    @NotNull
     private final Date date;
+
+    @NotNull
     private final UserDto user;
-    private final List<ProductDto> products;
+    private final Set<ProductDto> products;
 }

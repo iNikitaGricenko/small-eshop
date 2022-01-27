@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.*;
 
@@ -41,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             return;
         }
 
-        List<Role> role = roleRepository.findById(2L).stream().collect(toList());
+        Set<Role> role = roleRepository.findById(2L).stream().collect(toSet());
         user.setRoles(role);
 
         User savedUser = userRepository.save(user);

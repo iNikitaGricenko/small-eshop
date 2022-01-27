@@ -2,28 +2,18 @@ package com.example.eshop.dto.mapper;
 
 import com.example.eshop.dto.ProductDto;
 import com.example.eshop.model.product.Product;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@RequiredArgsConstructor
-public class ProductMapper {
+import java.util.List;
 
-    public static ProductDto toDto(Product product) {
-        return new ProductDto(
-                product.getProduct_id(),
-                product.getName(),
-                product.getPrice(),
-                product.getCount()
-        );
-    }
+@Mapper(componentModel = "spring")
+public interface ProductMapper {
 
-    public static Product toProduct(ProductDto dto) {
-        Product product = new Product();
-        product.setProduct_id(dto.getProduct_id());
-        product.setName(dto.getName());
-        product.setPrice(dto.getPrice());
-        product.setCount(dto.getCount());
+    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-        return product;
-    }
+    ProductDto toDto(Product product);
+    Product toProduct(ProductDto product);
+    List<ProductDto> toDtos(List<Product> product);
 
 }

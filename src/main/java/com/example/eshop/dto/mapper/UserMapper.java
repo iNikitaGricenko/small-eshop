@@ -1,28 +1,22 @@
 package com.example.eshop.dto.mapper;
 
-import com.example.eshop.model.user.User;
-import com.example.eshop.dto.UserDto;
 import com.example.eshop.dto.UserCreatorDto;
+import com.example.eshop.dto.UserDto;
+import com.example.eshop.model.user.User;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-public class UserMapper {
+import java.util.List;
 
-    public static UserDto toDto(User user) {
-        return new UserDto(user.getUser_id(), user.getLogin());
-    }
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    public static User toUser(UserDto dto) {
-        User user = new User();
-        user.setUser_id(dto.getUser_id());
-        user.setLogin(dto.getLogin());
-        return user;
-    }
+     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    public static User toUser(UserCreatorDto dto) {
-        User user = new User();
-        user.setUser_id(dto.getUser_id());
-        user.setLogin(dto.getLogin());
-        user.setPassword(dto.getPassword());
-        return user;
-    }
+     UserDto toDto(User user);
 
+     User toUser(UserDto dto);
+     User toUserCreator(UserCreatorDto dto);
+
+     List<UserDto> toDtos(List<User> usesrs);
 }

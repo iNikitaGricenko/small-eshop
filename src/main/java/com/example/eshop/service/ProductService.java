@@ -3,15 +3,12 @@ package com.example.eshop.service;
 import com.example.eshop.model.product.Product;
 import com.example.eshop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,17 +20,12 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
-    }
-
-    public List<Product> getAll(int count) {
-        Pageable pageable = PageRequest.ofSize(count);
+    public List<Product> getAll(Pageable pageable) {
         return productRepository.findAll(pageable).toList();
     }
 
-    public Product getById(Long id) {
-        return productRepository.getById(id);
+    public Product getById(Long id) throws NotFoundException {
+        return productRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public void deleteById(Long id) {
@@ -45,7 +37,7 @@ public class ProductService {
     }
 
     public Product edit(Product product) {
-        Long id = product.getProduct_id();
+        Long id = product.getId();
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("Product with " + id + " is not exists");
         }

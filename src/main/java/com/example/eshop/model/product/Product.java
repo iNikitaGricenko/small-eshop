@@ -1,6 +1,7 @@
 package com.example.eshop.model.product;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,9 +11,11 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @Column(nullable = false)
-    private Long product_id;
+    @Column(name = "product_id", nullable = false)
+    private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "price")
     private int price;
     private int count;
 

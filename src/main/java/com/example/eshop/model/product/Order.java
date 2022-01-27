@@ -1,15 +1,13 @@
 package com.example.eshop.model.product;
 
 import com.example.eshop.model.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -17,24 +15,31 @@ import java.util.List;
 public class Order {
 
     @Id
-    @Column(nullable = false)
-    private Long orders_id;
+    @Column(name = "orders_id", nullable = false)
+    private Long id;
+
+    @Column(name = "address", length = 200, nullable = false)
     private String address;
+
+    @Column(name = "description", length = 1024)
     private String description;
+
+    @Column(name = "count")
     private int count;
+
+    @Column(name = "date")
     private Date date;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "user_id",
-            referencedColumnName = "user_id"
-    )
-    @JsonBackReference
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @OneToMany
-    @JoinTable(
-            name = "user_orders",
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_orders",
             joinColumns = {@JoinColumn(
                     name = "orders_id",
                     referencedColumnName = "orders_id"
@@ -43,9 +48,7 @@ public class Order {
                     name="product_id",
                     referencedColumnName = "product_id",
                     unique = false
-            )}
-    )
-    @JsonManagedReference
-    private List<Product> products = new ArrayList<>();
+            )})
+    private Set<Product> products = new HashSet<>();
 
 }

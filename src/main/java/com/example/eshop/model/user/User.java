@@ -1,12 +1,11 @@
 package com.example.eshop.model.user;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -14,12 +13,15 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(nullable = false)
-    private Long user_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
+    private Long id;
+    @Column(name = "login", length = 345, nullable = false)
     private String login;
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(
@@ -30,7 +32,6 @@ public class User {
                     name = "role_id",
                     referencedColumnName = "role_id")
             })
-    @JsonManagedReference
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
 }
