@@ -15,19 +15,25 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public void deleteById(Long id) {
-        orderRepository.deleteById(id);
-    }
+    public Order save(Order order) { return orderRepository.save(order); }
 
     public List<Order> getAll(Pageable pageable) {
         return orderRepository.findAll(pageable).toList();
     }
 
-    public Order save(Order order) {
-        return orderRepository.save(order);
+    public List<Order> getDeleted(Pageable pageable) {
+        return orderRepository.findAllByDeletedIsTrue(pageable);
     }
 
-    public Order editOrder(Order order) throws ObjectNotFoundException {
+    public List<Order> getNotDeleted(Pageable pageable) {
+        return orderRepository.findAllByDeletedIsFalse(pageable);
+    }
+
+    public Order getById(Long id) throws ObjectNotFoundException {
+        return orderRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+    }
+
+    public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
         if(!orderRepository.existsById(id)) {
             throw new ObjectNotFoundException("Order with " + id + " not found");
@@ -36,7 +42,5 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getById(Long id) throws ObjectNotFoundException {
-        return orderRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-    }
+    public void remove(Long id) { orderRepository.deleteById(id); }
 }

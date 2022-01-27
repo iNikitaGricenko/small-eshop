@@ -23,11 +23,19 @@ public class ProductService {
         return productRepository.findAll(pageable).toList();
     }
 
+    public List<Product> getDeleted(Pageable pageable) {
+        return productRepository.findAllByDeletedIsTrue(pageable);
+    }
+
+    public List<Product> getNotDeleted(Pageable pageable) {
+        return productRepository.findAllByDeletedIsFalse(pageable);
+    }
+
     public Product getById(Long id) throws ObjectNotFoundException {
         return productRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void deleteById(Long id) throws ObjectNotFoundException {
+    public void remove(Long id) throws ObjectNotFoundException {
         if (!productRepository.existsById(id)) {
             throw new ObjectNotFoundException("product with id " + id + " not found");
         }

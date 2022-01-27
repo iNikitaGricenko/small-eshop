@@ -8,12 +8,9 @@ import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 @RestController
 @RequestMapping("/product")
@@ -25,7 +22,7 @@ public class ProductRest {
 
     @GetMapping
     public List<ProductDto> getAll(Pageable pageable) {
-        return mapper.toDtos(service.getAll(pageable));
+        return mapper.toDtos(service.getNotDeleted(pageable));
     }
 
     @GetMapping("/{id}")
@@ -43,7 +40,7 @@ public class ProductRest {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        service.deleteById(id);
+        service.remove(id);
     }
 
     @PatchMapping

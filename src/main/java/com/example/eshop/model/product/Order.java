@@ -3,6 +3,7 @@ package com.example.eshop.model.product;
 import com.example.eshop.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
+@SQLDelete(sql = "UPDATE orders SET deleted = true WHERE orders_id=?")
 @Getter @Setter
 public class Order {
 
@@ -37,6 +39,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
+
+    private boolean deleted = Boolean.FALSE;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_orders",

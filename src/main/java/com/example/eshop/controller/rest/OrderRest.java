@@ -8,7 +8,6 @@ import com.example.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class OrderRest {
 
     @GetMapping
     public List<OrderDto> getAll(Pageable pageable) {
-        return orderMapper.toDtos(service.getAll(pageable));
+        return orderMapper.toDtos(service.getNotDeleted(pageable));
     }
 
     @GetMapping("/{id}")
@@ -42,14 +41,14 @@ public class OrderRest {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
-        service.deleteById(id);
+        service.remove(id);
     }
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public OrderDto edit(@RequestBody OrderDto dto) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
-        order = service.editOrder(order);
+        order = service.edit(order);
 
         return orderMapper.toDto(order);
     }
