@@ -37,7 +37,7 @@ public class OrderService {
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
-        orderRepository.checkId(id);
+        orderRepository.checkIdOrThrow(id);
 
         return orderRepository.save(order);
     }

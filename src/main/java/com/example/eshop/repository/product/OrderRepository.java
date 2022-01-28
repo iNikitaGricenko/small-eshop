@@ -13,13 +13,16 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "SELECT * FROM orders e WHERE e.deleted = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM orders e WHERE e.deleted = true",
+            nativeQuery = true)
     Page<Order> findAllDeleted(Pageable pageable);
 
     @Override
-    @Query(value = "SELECT * FROM orders e WHERE e.deleted = false", nativeQuery = true )
+    @Query(value = "SELECT * FROM orders e WHERE e.deleted = false",
+            nativeQuery = true )
     Page<Order> findAll(Pageable pageable);
 
-    @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?", nativeQuery = true )
-    Optional<Boolean> checkId(Long id) throws ObjectNotFoundException;
+    @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?",
+            nativeQuery = true )
+    Optional<Boolean> checkIdOrThrow(Long id) throws ObjectNotFoundException;
 }

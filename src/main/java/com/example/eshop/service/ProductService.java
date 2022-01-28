@@ -38,15 +38,14 @@ public class ProductService {
     }
 
     public void remove(Long id) throws ObjectNotFoundException {
-        productRepository
-                .checkId(id);
+        productRepository.checkIdOrThrow(id);
 
         productRepository.deleteById(id);
     }
 
     public Product edit(Product product) throws ObjectNotFoundException {
         Long id = product.getId();
-        productRepository.checkId(id);
+        productRepository.checkIdOrThrow(id);
 
         return productRepository.save(product);
     }
