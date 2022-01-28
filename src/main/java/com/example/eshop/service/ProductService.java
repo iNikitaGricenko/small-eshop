@@ -20,30 +20,34 @@ public class ProductService {
     }
 
     public List<Product> getAll(Pageable pageable) {
-        return productRepository.findAll(pageable).toList();
+        return productRepository
+                .findAll(pageable)
+                .toList();
     }
 
     public List<Product> getDeleted(Pageable pageable) {
-        return productRepository.findAllDeleted(pageable).toList();
+        return productRepository
+                .findAllDeleted(pageable)
+                .toList();
     }
 
     public Product get(Long id) throws ObjectNotFoundException {
-        return productRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        return productRepository
+                .findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     public void remove(Long id) throws ObjectNotFoundException {
-        if (!productRepository.existsById(id)) {
-            throw new ObjectNotFoundException("product with id " + id + " not found");
-        }
+        productRepository
+                .checkId(id);
 
         productRepository.deleteById(id);
     }
 
     public Product edit(Product product) throws ObjectNotFoundException {
         Long id = product.getId();
-        if (!productRepository.existsById(id)) {
-            throw new ObjectNotFoundException("product with " + id + " not found");
-        }
+        productRepository.checkId(id);
+
         return productRepository.save(product);
     }
 

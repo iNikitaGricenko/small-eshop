@@ -18,22 +18,26 @@ public class OrderService {
     public Order save(Order order) { return orderRepository.save(order); }
 
     public List<Order> getAll(Pageable pageable) {
-        return orderRepository.findAll(pageable).toList();
+        return orderRepository
+                .findAll(pageable)
+                .toList();
     }
 
     public List<Order> getDeleted(Pageable pageable) {
-        return orderRepository.findAllDeleted(pageable).toList();
+        return orderRepository
+                .findAllDeleted(pageable)
+                .toList();
     }
 
     public Order getById(Long id) throws ObjectNotFoundException {
-        return orderRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        return orderRepository
+                .findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
-        if(!orderRepository.existsById(id)) {
-            throw new ObjectNotFoundException("Order with " + id + " not found");
-        }
+        orderRepository.checkId(id);
 
         return orderRepository.save(order);
     }
