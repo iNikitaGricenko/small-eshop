@@ -23,7 +23,7 @@ public class OrderRest {
 
     @GetMapping
     public List<OrderDto> getAll(Pageable pageable) {
-        return orderMapper.toDtos(service.getNotDeleted(pageable));
+        return orderMapper.toDtos(service.getAll(pageable));
     }
 
     @GetMapping("/{id}")

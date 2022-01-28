@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "products")
-@SQLDelete(sql = "UPDATE products SET deleted = true WHERE product_id=?")
+@SQLDelete(sql = "UPDATE products SET deleted = true WHERE orders_id=?")
 @Getter @Setter
 public class Product {
 

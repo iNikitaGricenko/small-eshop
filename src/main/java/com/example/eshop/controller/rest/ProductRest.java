@@ -22,12 +22,12 @@ public class ProductRest {
 
     @GetMapping
     public List<ProductDto> getAll(Pageable pageable) {
-        return mapper.toDtos(service.getNotDeleted(pageable));
+        return mapper.toDtos(service.getAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ProductDto getOne(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        return mapper.toDto(service.getById(id));
+        return mapper.toDto(service.get(id));
     }
 
     @PostMapping

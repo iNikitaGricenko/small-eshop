@@ -17,10 +17,10 @@ public class ObjectNotFoundHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNoSuchObjectFoundException (
             ObjectNotFoundException exception, WebRequest request
     ) {
-        String responseBody = exception.getMessage() + "\ncheck for the current of input datas";
+        String message = exception.getMessage() + "\ncheck for the current of input datas";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return handleExceptionInternal(exception, responseBody, headers, HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(exception, message, headers, HttpStatus.NOT_FOUND, request);
     }
 
 }

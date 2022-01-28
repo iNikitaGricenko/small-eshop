@@ -24,14 +24,10 @@ public class ProductService {
     }
 
     public List<Product> getDeleted(Pageable pageable) {
-        return productRepository.findAllByDeletedIsTrue(pageable);
+        return productRepository.findAllDeleted(pageable).toList();
     }
 
-    public List<Product> getNotDeleted(Pageable pageable) {
-        return productRepository.findAllByDeletedIsFalse(pageable);
-    }
-
-    public Product getById(Long id) throws ObjectNotFoundException {
+    public Product get(Long id) throws ObjectNotFoundException {
         return productRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 

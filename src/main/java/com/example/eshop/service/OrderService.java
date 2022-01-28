@@ -22,11 +22,7 @@ public class OrderService {
     }
 
     public List<Order> getDeleted(Pageable pageable) {
-        return orderRepository.findAllByDeletedIsTrue(pageable);
-    }
-
-    public List<Order> getNotDeleted(Pageable pageable) {
-        return orderRepository.findAllByDeletedIsFalse(pageable);
+        return orderRepository.findAllDeleted(pageable).toList();
     }
 
     public Order getById(Long id) throws ObjectNotFoundException {
