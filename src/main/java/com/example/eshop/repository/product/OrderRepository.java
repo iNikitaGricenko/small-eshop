@@ -22,6 +22,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             nativeQuery = true )
     Page<Order> findAll(Pageable pageable);
 
+    @Query(value = "SELECT * FROM orders e WHERE e.deleted = false and e.user_id = ?",
+            nativeQuery = true)
+    Page<Order> findAllByUser(Pageable pageable, Long id);
+
     @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?",
             nativeQuery = true )
     Optional<Boolean> checkIdOrThrow(Long id) throws ObjectNotFoundException;

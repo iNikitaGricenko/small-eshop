@@ -1,5 +1,6 @@
 package com.example.eshop.service.user;
 
+import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.user.Role;
 import com.example.eshop.model.user.User;
 import com.example.eshop.repository.user.RoleRepository;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.*;
@@ -36,8 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userDetails;
     }
 
-    public void addUser(User user) {
-
+    public void add(User user) {
         if (userRepository.existsByLogin(user.getLogin())) {
             return;
         }
@@ -46,8 +45,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.setRoles(role);
 
         User savedUser = userRepository.save(user);
-
     }
 
+    public User get(String login) {
+        return userRepository.findByLogin(login);
+    }
+
+    public User get(Long id) throws ObjectNotFoundException {
+        return userRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+    }
 
 }

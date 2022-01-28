@@ -2,6 +2,7 @@ package com.example.eshop.service;
 
 import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.product.Order;
+import com.example.eshop.model.user.User;
 import com.example.eshop.repository.product.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,11 @@ public class OrderService {
         return orderRepository
                 .findAll(pageable)
                 .toList();
+    }
+
+    public List<Order> getAll(Pageable pageable, User user) {
+        Long id = user.getId();
+        return orderRepository.findAllByUser(pageable, id).toList();
     }
 
     public List<Order> getDeleted(Pageable pageable) {

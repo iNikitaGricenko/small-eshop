@@ -7,15 +7,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Products</title>
 </head>
-<script>
-    function buy(product) {
-        console.log(product)
-        let jsonData = JSON.stringify({
-            product : product
-        })
+<script th:inline="javascript">
+    function buy() {
+        /*<![CDATA[*/
+            var login = [[${User.login}]];
+            var userId = [[${User.id}]];
+        /*]]>*/
+        let productId = $("#orderCreator").attr("data-product-id");
+        let address = $("#address").val();
+        let description = $("#description").val();
+        let count = $("#count").val();
+        let date = new Date().toISOString().slice(0, 10);
+
+        let body = {
+                    "address":address,
+                    "description":description,
+                    "count":count,
+                    "date":date,
+                    "user":{
+                        "id":userId,
+                        "login":login
+                    },
+                    "products": [
+                        {"id":productId}
+                    ]
+                };
+        let jsonData = JSON.stringify(body);
+
         $.ajax({
             type: 'POST',
-            url: '/addOrder',
+            url: '/order',
             dataType: 'json',
             contentType: 'application/json',
             data: jsonData,
@@ -29,15 +50,16 @@
     }
 </script>
 <body class="flex full-center">
+<span></span>
 <div class="container">
 
     <div class="card" th:each="product : ${products}">
         <div class="imgBox">
             <img src="">
             <ul class="action">
-                <li th:data-product="${product}" onclick="buy(this.getAttribute('data-product'))" >
+                <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))"> <!-- th:data-product="${product.id}" onclick="buy(this.getAttribute('data-product'))" -->
                     <i class="fas fa-cart-arrow-down"></i>
-                    <span>Add to Cart</span>
+                    <span>To Order</span>
                 </li>
                 <li>
                     <i class="fas fa-heart"></i>
@@ -61,7 +83,18 @@
             </div>
         </div>
     </div>
-
 </div>
+<th:block th:insert="/blocks/modals :: orderCreator"></th:block>
+<script>
+    function createOrder(id, count) {
+        createOrder();
+        $("#orderCreator").attr('data-product-id', id);
+        $("#count").attr('max', count);
+    }
+    function createOrder() {
+        $("#orderCreator").toggleClass('active');
+    }
+</script>
+
 </body>
 </html>

@@ -46,7 +46,7 @@ body {
 .section-login .contentBox .formBox {
     width: 50%;
 }
-.formBox .form-title {
+.form-title {
     color: #607d8b;
     font-weight: 800;
     font-size: 1.5em;
@@ -56,7 +56,7 @@ body {
     display: inline-block;
     letter-spacing: 1px;
 }
-.formBox .inputBox {
+.inputBox {
     margin-bottom: 20px;
 }
 .inputBox span {
@@ -219,51 +219,133 @@ body {
 /* orders list */
 .orders {
     position: relative;
-    width: 1050px;
+    width: 1350px;
     margin: 100px auto 0;
     padding: 10px;
 }
 .orders li {
     display: flex;
-    background-color: #333;
+    background: linear-gradient(275deg, #e91e63, #03a9f4);
     padding: 10px 20px;
     color: #fff;
     margin: 5px 0;
     transition: 500ms;
 }
 .orders li:nth-child(1) {
-    background-color: #2b2b2b;
+    background: linear-gradient(215deg, #e91e63, #03a9f4);
 }
 .orders li .id {
     width: 30px;
+    text-align: center;
 }
 .orders li .name {
     width: 200px;
+    text-align: center;
 }
 .orders li .price {
     width: 100px;
+    text-align: center;
 }
 .orders li .address {
     width: 300px;
+    text-align: center;
 }
 .orders li .date {
-    width: 100px;
+    width: 120px;
+    text-align: center;
 }
 .orders li .description {
-    width: 400px;
+    width: 410px;
     white-space: normal;
+    text-align: center;
 }
 .orders li .buttons {
     width: 70px;
     text-align: right;
     cursor: pointer;
+    text-align: center;
 }
-.orders li .buttons:hover {
-    background-color: #2b2b2b;
-    color: #fff;
+.orders li .buttons:hover i {
+    color: #2b2b2b;
 }
 .orders li:hover {
-    transform: scale(1.06);
-    background-color: #fff;
+    box-shadow: 0 0 0 1px #000000, 0 0 0 3px #ffffff;
 }
 /* orders list */
+#orderCreator,
+#orderEditor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -300%);
+
+    width: 400px;
+    background: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: 0 5px 15px rgba(0 0 0 / 50%);
+    padding: 25px 50px;
+
+    transition: transform 1s ease-in-out;
+}
+#orderCreator.active,
+#orderEditor.active {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+#orderCreator .fa-times-circle,
+#orderEditor .fa-times-circle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #607d8b;
+    cursor: pointer;
+}
+#orderCreator .fa-times-circle:hover,
+#orderEditor .fa-times-circle:hover {
+    color: #000;
+}
+#orderCreator .heading,
+#orderEditor .heading {
+    width: 100%;
+    padding-bottom: 10px;
+}
+#orderCreator .heading h2,
+#orderEditor .heading h2 {
+    color: #607d8b;
+    font-weight: 800;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #ff4584;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+.inputBox textarea {
+    width: 100%;
+    max-width: 100%;
+    max-height: 250px;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #607d8b;
+    border-radius: 3px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #607d8b;
+    background-color: transparent;
+}
+.link-btn {
+    background-color: #ff4584;
+    color: #fff;
+    border: none;
+    font-weight: 500;
+    padding: .5rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+.inputBox .link-btn {
+    color: #ffffff;
+}
+.link-btn:hover {
+    background-color: #f53677;
+}

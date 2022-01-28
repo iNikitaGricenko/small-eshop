@@ -4,6 +4,7 @@ import com.example.eshop.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLInsert;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -17,7 +18,9 @@ import java.util.Set;
 public class Order {
 
     @Id
-    @Column(name = "orders_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "orders_id")
     private Long id;
 
     @Column(name = "address", length = 200, nullable = false)
