@@ -1,5 +1,6 @@
 package com.example.eshop.controller;
 
+import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.user.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 
@@ -44,9 +46,10 @@ public class AuthorizationController {
 
     @GetMapping("/my-orders")
     @PreAuthorize(value = "isAuthenticated()")
-    public String getOrderPage(Model model, Principal principal, Pageable pageable) {
+    public String getOrderPage(Model model, Principal principal, Pageable pageable) throws ObjectNotFoundException {
         User user = userService.get(principal.getName());
         model.addAttribute("orders", orderService.getAll(pageable, user));
+        model.addAttribute("Order", orderService.getById(8L));
         return "orders";
     }
 }

@@ -34,6 +34,8 @@
                 };
         let jsonData = JSON.stringify(body);
 
+        console.log(jsonData);
+
         $.ajax({
             type: 'POST',
             url: '/order',
@@ -47,12 +49,13 @@
                 console.log("ERROR " + data)
             }
         })
+
+        openOrder()
     }
 </script>
-<body class="flex full-center">
-<span></span>
-<div class="container">
-
+<body>
+<th:block th:insert="/blocks/header :: header"></th:block>
+<div class="container flex full-center">
     <div class="card" th:each="product : ${products}">
         <div class="imgBox">
             <img src="">
@@ -74,11 +77,11 @@
             <div class="priceBox">
                 <h2 class="price" th:text="'$'+${product.price}"></h2>
                 <div class="rating">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star grey"></i>
-                    <i class="fas fa-star grey"></i>
-                    <i class="fas fa-star grey"></i>
+                    <i class="fas fa-star" onclick="rare(this)"></i>
+                    <i class="fas fa-star" onclick="rare(this)"></i>
+                    <i class="fas fa-star grey" onclick="rare(this)"></i>
+                    <i class="fas fa-star grey" onclick="rare(this)"></i>
+                    <i class="fas fa-star grey" onclick="rare(this)"></i>
                 </div>
             </div>
         </div>
@@ -86,12 +89,17 @@
 </div>
 <th:block th:insert="/blocks/modals :: orderCreator"></th:block>
 <script>
+    function rare(element) {
+        $(element).toggleClass('grey');
+    }
     function createOrder(id, count) {
-        createOrder();
+        console.log(id)
+        console.log(count)
         $("#orderCreator").attr('data-product-id', id);
         $("#count").attr('max', count);
+        openOrder();
     }
-    function createOrder() {
+    function openOrder() {
         $("#orderCreator").toggleClass('active');
     }
 </script>
