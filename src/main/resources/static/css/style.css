@@ -16,6 +16,56 @@ body {
     min-height: 100vh;
     background-color: #dcdcdc;
 }
+
+
+
+/* header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+    background-color: #24252A;
+}
+.logo {
+    cursor: pointer;
+    color: #dcdcdc;
+}
+.nav__links {
+    list-style: none;
+}
+.nav__links li {
+    display: inline-block;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #dcdcdc;
+}
+.nav__links li a {
+    transition: all 300ms ease;
+    color: #dcdcdc;
+    text-decoration: none;
+}
+.nav__links li a:hover {
+    color: #03a9f4;
+}
+.cta .button {
+    padding: 9px 25px;
+    background-color: rgba(255, 69, 132, 1);
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    color: #dcdcdc;
+    cursor: pointer;
+    transition: all 300ms ease;
+    text-decoration: none;
+}
+.cta .button:hover {
+    background-color: rgba(255, 69, 132, 0.8);
+}
+/* header */
+
+
+
 .flex {
     display: flex;
 }
@@ -23,6 +73,9 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+
+
 /* login */
 .section-login {
     position: relative;
@@ -93,6 +146,9 @@ body {
     color: #ff4584;
 }
 /* login */
+
+
+
 /* product cards */
 .container {
     position: relative;
@@ -216,10 +272,12 @@ body {
 }
 /* product cards */
 
+
+
 /* orders list */
 .orders {
     position: relative;
-    width: 1350px;
+    width: 1450px;
     margin: 100px auto 0;
     padding: 10px;
 }
@@ -243,7 +301,7 @@ body {
     text-align: center;
 }
 .orders li .price {
-    width: 100px;
+    width: 200px;
     text-align: center;
 }
 .orders li .address {
@@ -272,6 +330,10 @@ body {
     box-shadow: 0 0 0 1px #000000, 0 0 0 3px #ffffff;
 }
 /* orders list */
+
+
+
+/* modals */
 #orderCreator,
 #orderEditor {
     position: absolute;
@@ -320,6 +382,10 @@ body {
     display: inline-block;
     letter-spacing: 1px;
 }
+/* modals */
+
+
+
 .inputBox textarea {
     width: 100%;
     max-width: 100%;

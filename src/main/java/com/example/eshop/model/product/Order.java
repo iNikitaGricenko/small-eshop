@@ -4,7 +4,6 @@ import com.example.eshop.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLInsert;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -45,7 +44,7 @@ public class Order {
 
     private boolean deleted = Boolean.FALSE;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "user_orders",
             joinColumns = {@JoinColumn(
                     name = "orders_id",
@@ -56,6 +55,6 @@ public class Order {
                     referencedColumnName = "product_id",
                     unique = false
             )})
-    private Set<Product> products = new HashSet<>();
+    private Set<Product> products = new java.util.LinkedHashSet<>();
 
 }

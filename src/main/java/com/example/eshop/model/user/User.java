@@ -1,5 +1,6 @@
 package com.example.eshop.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +33,7 @@ public class User {
                     name = "role_id",
                     referencedColumnName = "role_id")
             })
+    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
 }
