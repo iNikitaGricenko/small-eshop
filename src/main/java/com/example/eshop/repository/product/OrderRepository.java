@@ -5,6 +5,7 @@ import com.example.eshop.model.product.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +29,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?",
             nativeQuery = true )
-    Optional<Boolean> checkIdOrThrow(Long id) throws ObjectNotFoundException;
+    Optional<Boolean> checkIdOrThrow(Long id);
 }

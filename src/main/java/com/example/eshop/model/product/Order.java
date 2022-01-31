@@ -7,8 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -52,9 +52,8 @@ public class Order {
             )},
             inverseJoinColumns = {@JoinColumn(
                     name="product_id",
-                    referencedColumnName = "product_id",
-                    unique = false
+                    referencedColumnName = "product_id"
             )})
-    private Set<Product> products = new java.util.LinkedHashSet<>();
+    private List<Product> products = new ArrayList<>();
 
 }

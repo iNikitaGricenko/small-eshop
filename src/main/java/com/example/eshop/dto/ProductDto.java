@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 @Data
 public class ProductDto implements Serializable {
-    @NotNull
     private final Long id;
     @NotNull
     private final String name;

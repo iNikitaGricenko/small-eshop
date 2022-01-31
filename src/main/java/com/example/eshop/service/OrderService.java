@@ -43,7 +43,7 @@ public class OrderService {
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
-        orderRepository.checkIdOrThrow(id);
+        orderRepository.checkIdOrThrow(id).orElseThrow(ObjectNotFoundException::new);
 
         return orderRepository.save(order);
     }

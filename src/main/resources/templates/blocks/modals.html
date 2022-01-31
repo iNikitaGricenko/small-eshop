@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> github/master
 <div th:fragment="orderCreator" class="orderCreator" id="orderCreator">
 	<i class="fas fa-times-circle close" onclick="openOrder()"></i>
 	<h2 class="heading">Запросить обратный звонок</h2>
@@ -21,20 +17,20 @@
 		<a class="link-btn" href="#" onclick="buy()">To Order</a>
 	</div>
 </div>
-<div th:fragment="orderEditor" th:object="${Order}" class="orderEditor" id="orderEditor">
+<div th:fragment="orderEditor" class="orderEditor" id="orderEditor">
 	<i class="fas fa-times-circle close" onclick="openOrder()"></i>
 	<h2 class="heading">Запросить обратный звонок</h2>
 	<div class="inputBox">
 		<span>Address</span>
-		<input type="text" th:value="${Order.address}" name="address" id="address" required="">
+		<input type="text" name="address" id="address" required="">
 	</div>
 	<div class="inputBox">
 		<span>count</span>
-		<input type="number" th:value="${Order.count}" min="1" step="1" name="count" id="count" required="">
+		<input type="number" min="1" step="1" name="count" id="count" required="">
 	</div>
 	<div class="inputBox">
 		<span>description</span>
-		<textarea type="text" th:value="${Order.description}" name="description" id="description" required=""></textarea>
+		<textarea type="text" name="description" id="description" required=""></textarea>
 	</div>
 	<div class="inputBox">
 		<a class="link-btn" href="#" onclick="edit()">Edit</a>

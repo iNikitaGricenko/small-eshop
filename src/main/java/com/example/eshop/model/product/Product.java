@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-@SQLDelete(sql = "UPDATE products SET deleted = true WHERE orders_id=?")
+@SQLDelete(sql = "UPDATE products SET deleted = true WHERE product_id=?")
 @Getter @Setter
 public class Product {
 

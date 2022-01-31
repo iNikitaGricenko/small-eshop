@@ -9,7 +9,7 @@
 </head>
 <body>
 <th:block th:insert="/blocks/header :: header"></th:block>
-<div class="flex full-center">
+<div class="flex full-center" id="refresh">
     <ul class="orders" id="orders">
         <li>
             <span class="name">Product name</span>
@@ -38,16 +38,6 @@
 </div>
 <th:block id="load" th:insert="/blocks/modals :: orderEditor"></th:block>
 <script>
-    function deleteOrder(id) {
-        $.ajax({
-            type: 'DELETE',
-            url: 'http://localhost:8080/order/'+id,
-            success: function (data) {
-                console.log("SUCCESS " + data)
-                $("#orders").load("/order"/id);
-            }
-        })
-    }
     function loadModal(data) {
         $("#address").val(data.address);
         $("#count").val(data.count);
@@ -69,17 +59,31 @@
     }
 </script>
 <script th:inline="javascript">
+    function deleteOrder(id) {
+        /*<![CDATA[*/
+        var login = [[${User.login}]];
+        var userId = [[${User.id}]];
+        /*]]>*/
+        $.ajax({
+            type: 'DELETE',
+            url: 'http://localhost:8080/order/'+id,
+            success: function (data) {
+                console.log("SUCCESS " + data)
+                $("#refresh").load("/my-orders/ #orders");
+            }
+        })
+    }
     function edit() {
         /*<![CDATA[*/
         var login = [[${User.login}]];
         var userId = [[${User.id}]];
         /*]]>*/
-        let orderId = $("#orderCreator").attr("data-order-id");
-        let productId = $("#orderCreator").attr("data-product-id");
-        let address = $("#address").val();
-        let description = $("#description").val();
-        let count = $("#count").val();
-        let date = new Date().toISOString().slice(0, 10);
+        var orderId = $("#orderEditor").attr("data-order-id");
+        var productId = $("#orderEditor").attr("data-product-id");
+        var address = $("#address").val();
+        var description = $("#description").val();
+        var count = $("#count").val();
+        var date = new Date().toISOString().slice(0, 10);
 
         let body = {
             "id":orderId,
@@ -98,16 +102,19 @@
         let jsonData = JSON.stringify(body);
 
         $.ajax({
-            type: 'POST',
+            type: 'PATCH',
             url: '/order',
             dataType: 'json',
             contentType: 'application/json',
             data: jsonData,
             success: function (data) {
                 console.log("SUCCESS " + data)
+                $("#refresh").load("/my-orders/ #orders");
             },
             error: function (data) {
                 console.log("ERROR " + data)
+                console.log(orderId)
+                console.log(productId)
             }
         })
 

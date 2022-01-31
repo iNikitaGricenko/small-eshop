@@ -46,10 +46,9 @@ public class AuthorizationController {
 
     @GetMapping("/my-orders")
     @PreAuthorize(value = "isAuthenticated()")
-    public String getOrderPage(Model model, Principal principal, Pageable pageable) throws ObjectNotFoundException {
+    public String getOrderPage(Model model, Principal principal, Pageable pageable) {
         User user = userService.get(principal.getName());
         model.addAttribute("orders", orderService.getAll(pageable, user));
-        model.addAttribute("Order", orderService.getById(8L));
         return "orders";
     }
 }
