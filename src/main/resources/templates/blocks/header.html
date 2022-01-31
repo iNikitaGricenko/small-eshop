@@ -2,8 +2,11 @@
     <h2 class="logo">BRAND NAME</h2>
     <nav class="nav__links">
         <ul>
-            <li><a href="/my-orders">Orders</a></li>
-            <li><a href="/">Products</a></li>
+            <li><a href="/?size=15">Products</a></li>
+            <li>
+                <a sec:authorize="hasRole('USER')" href="/my-orders">My Orders</a>
+                <a sec:authorize="hasRole('ADMIN')" href="/all-orders?size=15">All Orders</a>
+            </li>
         </ul>
     </nav>
     <span class="cta"><a class="button" href="/logout">Logout</a></span>

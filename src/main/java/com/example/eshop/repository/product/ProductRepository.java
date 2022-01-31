@@ -13,12 +13,12 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "SELECT * FROM products e WHERE e.deleted = true",
+    @Query(value = "SELECT * FROM products e WHERE e.is_deleted = true",
             nativeQuery = true)
     Page<Product> findAllDeleted(Pageable pageable);
 
     @Override
-    @Query(value = "SELECT * FROM products e WHERE e.deleted = false",
+    @Query(value = "SELECT * FROM products e WHERE e.is_deleted = false",
             nativeQuery = true )
     Page<Product> findAll(Pageable pageable);
 

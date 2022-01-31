@@ -30,9 +30,6 @@ public class OrderDto implements Serializable {
     private final int count;
 
     @NotNull
-    private final Date date;
-
-    @NotNull
     private final UserDto user;
     private final Set<ProductDto> products;
 }

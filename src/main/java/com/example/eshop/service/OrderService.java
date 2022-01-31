@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -16,7 +17,8 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public Order save(Order order) { return orderRepository.save(order); }
+    public Order save(Order order) {
+        return orderRepository.save(order); }
 
     public List<Order> getAll(Pageable pageable) {
         return orderRepository
@@ -43,8 +45,8 @@ public class OrderService {
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
-        orderRepository.checkIdOrThrow(id).orElseThrow(ObjectNotFoundException::new);
-
+        orderRepository.checkIdOrThrow(id)
+                .orElseThrow(ObjectNotFoundException::new);
         return orderRepository.save(order);
     }
 

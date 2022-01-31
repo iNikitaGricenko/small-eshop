@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://kit.fontawesome.com/979f4e20dd.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>All orders</title>
+</head>
+<body>
+<th:block th:insert="/blocks/header :: header"></th:block>
+<div class="container">
+    <div class="details">
+        <!-- recent orders details start -->
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2>Recent Orders</h2>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>User</td>
+                    <td>Address</td>
+                    <td>Status</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <th:block th:each="product : ${order.products}">
+                        <td th:text="${product.name} +' (count '+ ${order.count}+')'">Star Refrigerator</td>
+                        <td th:text="'$'+${order.count} * ${product.price}">$1200</td>
+                        <td th:text="${order.user.login}">User</td>
+                        <td th:text="${order.address}">User</td>
+                        <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- recent orders details list end -->
+        <!-- deleted orders details start -->
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2>Deleted orders</h2>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <td>User</td>
+                    <td>Address</td>
+                    <td>Count</td>
+                    <td>Status</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${deleted}">
+                    <td th:text="${order.user.login}"></td>
+                    <td th:text="'$'+${order.address}"></td>
+                    <td th:text="${order.count}"></td>
+                    <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- deleted orders details list end -->
+    </div>
+</div>
+</body>
+</html>

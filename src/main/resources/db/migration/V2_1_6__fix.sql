@@ -1,0 +1,1 @@
+delete from orders where deleted is null returning *;

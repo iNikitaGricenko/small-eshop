@@ -5,10 +5,11 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "products")
-@SQLDelete(sql = "UPDATE products SET deleted = true WHERE product_id=?")
+@SQLDelete(sql = "UPDATE products SET is_deleted = TRUE and deleted = now() WHERE product_id=?")
 @Getter @Setter
 public class Product {
 
@@ -20,7 +21,12 @@ public class Product {
     private String name;
     @Column(name = "price")
     private int price;
+    @Column(name = "count")
     private int count;
-    private boolean deleted = Boolean.FALSE;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
+    @Column(name = "deleted")
+    private Date deleted;
 
 }

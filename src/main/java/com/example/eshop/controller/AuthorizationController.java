@@ -1,20 +1,22 @@
 package com.example.eshop.controller;
 
-import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.dto.mapper.OrderMapper;
+import com.example.eshop.model.product.Order;
 import com.example.eshop.model.user.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
 import com.example.eshop.service.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class AuthorizationController {
     }
 
     @GetMapping("/")
-    @PreAuthorize(value = "isAuthenticated()")
+    @PostAuthorize(value = "isAuthenticated()")
     public String getHomePage(Model model, Pageable pageable) {
         model.addAttribute("products", productService.getAll(pageable));
         return "index";
@@ -49,6 +51,14 @@ public class AuthorizationController {
     public String getOrderPage(Model model, Principal principal, Pageable pageable) {
         User user = userService.get(principal.getName());
         model.addAttribute("orders", orderService.getAll(pageable, user));
-        return "orders";
+        return "my_orders";
+    }
+
+    @GetMapping("/all-orders")
+    public String getAllOrdersPage(Model model, Pageable pageable) {
+        model.addAttribute("orders", orderService.getAll(pageable));
+        List<Order> deleted = orderService.getDeleted(pageable);
+        model.addAttribute("deleted", deleted);
+        return "all_orders";
     }
 }

@@ -13,7 +13,7 @@
     <ul class="orders" id="orders">
         <li>
             <span class="name">Product name</span>
-            <span class="price">Price per one</span>
+            <span class="price">Price</span>
             <span class="price">Count</span>
             <span class="address">Address</span>
             <span class="date">Register Date</span>
@@ -24,10 +24,10 @@
         <li th:each="order : ${orders}">
             <th:block th:each="product : ${order.products}">
                 <span class="name" th:text="${product.name}"></span>
-                <span class="price" th:text="'$' + ${product.price}"></span>
+                <span class="price" th:text="'$' + ${order.count} * ${product.price}"></span>
                 <span class="price" th:text="${order.count}"></span>
                 <span class="address" th:text="${order.address}"></span>
-                <span class="date" th:text="${order.date}"></span>
+                <span class="date" th:text="${order.created}"></span>
                 <span class="description" th:text="${order.description}"></span>
                 <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-count="${product.count}"
                       onclick="editOrder(this.getAttribute('data-order'), this.getAttribute('data-product'), this.getAttribute('data-count'))"><i class="fas fa-edit"></i></span>
