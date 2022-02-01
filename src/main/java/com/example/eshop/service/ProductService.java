@@ -37,17 +37,19 @@ public class ProductService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void remove(Long id) throws ObjectNotFoundException {
-        productRepository.checkIdOrThrow(id);
-
+    public void remove(Long id) {
         productRepository.deleteById(id);
     }
 
     public Product edit(Product product) throws ObjectNotFoundException {
         Long id = product.getId();
-        productRepository.checkIdOrThrow(id);
-
+        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
         return productRepository.save(product);
+    }
+
+    public boolean backToSale(Long id) throws ObjectNotFoundException{
+        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
+        return productRepository.returnToSale(id);
     }
 
 }

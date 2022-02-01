@@ -9,7 +9,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "products")
-@SQLDelete(sql = "UPDATE products SET is_deleted = TRUE and deleted = now() WHERE product_id=?")
+@SQLDelete(sql = "UPDATE products e SET deleted = TRUE, deleted_at = now() WHERE e.product_id=?")
 @Getter @Setter
 public class Product {
 
@@ -24,9 +24,9 @@ public class Product {
     @Column(name = "count")
     private int count;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted = Boolean.FALSE;
     @Column(name = "deleted")
-    private Date deleted;
+    private boolean isDeleted = Boolean.FALSE;
+    @Column(name = "deleted_at", insertable = false)
+    private Date deletedAt;
 
 }

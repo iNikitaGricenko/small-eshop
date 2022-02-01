@@ -18,7 +18,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "orders_id")
     private Long id;
 
@@ -44,10 +43,10 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @Column(name = "deleted", nullable = false, insertable = false)
+    @Column(name = "deleted")
     private boolean isDeleted = Boolean.FALSE;
     @Column(name = "deleted_at", insertable = false)
-    private Date deleted;
+    private Date deletedAt;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "user_orders",

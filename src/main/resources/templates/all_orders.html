@@ -9,7 +9,7 @@
 </head>
 <body>
 <th:block th:insert="/blocks/header :: header"></th:block>
-<div class="container">
+<div class="container" style="width: auto">
     <div class="details">
         <!-- recent orders details start -->
         <div class="recentOrders">
@@ -43,7 +43,7 @@
         <!-- deleted orders details start -->
         <div class="recentOrders">
             <div class="cardHeader">
-                <h2>Deleted orders</h2>
+                <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted orders</h2>
             </div>
             <table>
                 <thead>
@@ -55,9 +55,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order : ${deleted}">
+                <tr th:each="order : ${deletedOrders}">
                     <td th:text="${order.user.login}"></td>
-                    <td th:text="'$'+${order.address}"></td>
+                    <td th:text="${order.address}"></td>
                     <td th:text="${order.count}"></td>
                     <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
                 </tr>
@@ -65,7 +65,44 @@
             </table>
         </div>
         <!-- deleted orders details list end -->
+        <!-- deleted orders details start -->
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted products</h2>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Count</td>
+                    <td>Price</td>
+                    <td>Deleted at</td>
+                </tr>
+                </thead>
+                <tbody id="productList">
+                <tr th:each="product : ${deletedProducts}">
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.count}"></td>
+                    <td th:text="'$'+${product.price}"></td>
+                    <td th:data-id="${product.id}" onclick="backToSale(this.getAttribute('data-id'))"><span class="status DELETED" th:text="${product.deletedAt}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- deleted orders details list end -->
     </div>
 </div>
+<script>
+    function backToSale(id) {
+        $.ajax({
+            type: 'POST',
+            url: 'product/return/'+id,
+            success: function (data) {
+                alert("SUCCESSFULLY");
+                $('#productList').load("/all-orders #productList");
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -530,4 +530,12 @@ header {
     background: #1795ce;
     cursor: pointer;
 }
+.status.DELETED
+{
+    background: #000d13;
+    cursor: pointer;
+}
+.status.DELETED:hover {
+    background: #f00;
+}
 /* recent orders */

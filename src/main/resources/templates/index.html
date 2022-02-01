@@ -10,8 +10,8 @@
 <script th:inline="javascript">
     function buy() {
         /*<![CDATA[*/
-            var login = [[${User.login}]];
-            var userId = [[${User.id}]];
+        var login = [[${User.login}]];
+        var userId = [[${User.id}]];
         /*]]>*/
         let productId = $("#orderCreator").attr("data-product-id");
         let address = $("#address").val();
@@ -20,20 +20,20 @@
         let date = new Date().toISOString().slice(0, 10);
 
         let body = {
-                    "id":0,
-                    "address":address,
-                    "description":description,
-                    "count":count,
-                    "status":'INPROGRESS',
-                    "date":0,
-                    "user":{
-                        "id":userId,
-                        "login":login
-                    },
-                    "products": [
-                        {"id":productId}
-                    ]
-                };
+            "id":0,
+            "address":address,
+            "description":description,
+            "count":count,
+            "status":'INPROGRESS',
+            "date":0,
+            "user":{
+                "id":userId,
+                "login":login
+            },
+            "products": [
+                {"id":productId}
+            ]
+        };
         let jsonData = JSON.stringify(body);
 
         console.log(jsonData);
@@ -45,10 +45,10 @@
             contentType: 'application/json',
             data: jsonData,
             success: function (data) {
-                console.log("SUCCESS " + data)
+                alert("SUCCESSFULLY")
             },
             error: function (data) {
-                console.log("ERROR " + data)
+                alert("ERROR")
             }
         })
 
@@ -57,18 +57,22 @@
 </script>
 <body>
 <th:block th:insert="/blocks/header :: header"></th:block>
-<div class="container flex full-center">
+<div class="container flex full-center" id="refresh">
     <div class="card" th:each="product : ${products}">
         <div class="imgBox">
             <img src="">
             <ul class="action">
-                <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))"> <!-- th:data-product="${product.id}" onclick="buy(this.getAttribute('data-product'))" -->
+                <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))">
                     <i class="fas fa-cart-arrow-down"></i>
                     <span>To Order</span>
                 </li>
                 <li>
                     <i class="fas fa-heart"></i>
                     <span>Add to Wishlist</span>
+                </li>
+                <li sec:authorize="hasRole('ADMIN')" th:data-product="${product.id}" onclick="deleteProduct(this.getAttribute('data-product'))">
+                    <i class="fas fa-trash"></i>
+                    <span>Delete</span>
                 </li>
             </ul>
         </div>
@@ -103,6 +107,16 @@
     }
     function openOrder() {
         $("#orderCreator").toggleClass('active');
+    }
+    function deleteProduct(id) {
+        $.ajax({
+            type: "DELETE",
+            url: "/product/"+id,
+            success: function(data) {
+                alert("SUCCESSFULLY DELETED")
+                $('#refresh').load("/ #refresh");
+            }
+        })
     }
 </script>
 

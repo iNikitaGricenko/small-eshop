@@ -8,6 +8,7 @@ import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,13 @@ public class ProductRest {
     public ProductDto edit(@RequestBody ProductDto dto) throws ObjectNotFoundException {
         Product product = mapper.toProduct(dto);
         return mapper.toDto(service.edit(product));
+    }
+
+    @PostMapping("/return/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> backToSale(@PathVariable Long id) throws ObjectNotFoundException {
+        service.backToSale(id);
+        return ResponseEntity.ok().build();
     }
 
 }

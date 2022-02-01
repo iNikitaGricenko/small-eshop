@@ -55,10 +55,17 @@ public class AuthorizationController {
     }
 
     @GetMapping("/all-orders")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public String getAllOrdersPage(Model model, Pageable pageable) {
         model.addAttribute("orders", orderService.getAll(pageable));
-        List<Order> deleted = orderService.getDeleted(pageable);
-        model.addAttribute("deleted", deleted);
+        model.addAttribute("deletedOrders", orderService.getDeleted(pageable));
+        model.addAttribute("deletedProducts", productService.getDeleted(pageable));
         return "all_orders";
+    }
+
+    @GetMapping("/add-product")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public String getProductCreatorPage() {
+        return "add_product";
     }
 }
