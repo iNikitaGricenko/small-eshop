@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 @Data
 public class UserCreatorDto implements Serializable {
-    @NotNull
     private final Long id;
     @NotNull @Size(max = 345) @Email
     private final String login;

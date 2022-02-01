@@ -1,6 +1,7 @@
 package com.example.eshop.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,7 +35,8 @@ public class WebSecuritConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                         .antMatchers("/css/**").permitAll()
                         .antMatchers("/login", "/register").not().authenticated()
-                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/user").permitAll()
+                        .antMatchers("/admin/**", "/user").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 .and()
                     .formLogin()

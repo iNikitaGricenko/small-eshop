@@ -17,7 +17,6 @@ public class AdminController {
 
     private final ProductService productService;
     private final OrderService orderService;
-    private final CustomUserDetailsService userService;
 
     @GetMapping("/all-orders")
     public String getAllOrdersPage(Model model, Pageable pageable) {

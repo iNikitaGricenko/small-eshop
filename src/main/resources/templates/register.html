@@ -3,32 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Authorize page</title>
 </head>
 <body>
-    <section class="section-login">
-        <div class="contentBox">
-            <div class="formBox">
-                <h2 class="form-title">Register</h2>
-                <form th:action="@{/register}" method="post" th:object="${User}">
-                    <div class="inputBox">
-                        <span>E-Mail</span>
-                        <input type="email" name="login" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Password</span>
-                        <input type="password" name="password" required>
-                    </div>
-                    <div class="inputBox">
-                        <input type="submit" value="Sign up" required>
-                    </div>
-                    <div class="inputBox">
-                        <a href="/login">Already have account?</a>
-                    </div>
-                </form>
-            </div>
+<section class="section-login">
+    <div class="contentBox">
+        <div class="formBox">
+            <h2 class="form-title">Register</h2>
+            <form th:action="@{/user}" method="POST">
+                <div class="inputBox">
+                    <span>E-Mail</span>
+                    <input type="email" id="login" name="login" required>
+                </div>
+                <div class="inputBox">
+                    <span>Password</span>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="inputBox">
+                    <input type="submit" value="Sign up" required>
+                </div>
+                <div class="inputBox">
+                    <a href="/login">Already have account?</a>
+                </div>
+            </form>
         </div>
-        <div class="imgBox" style="background: linear-gradient(-225deg, #e91e63, #03a9f4)"></div>
-    </section>
+    </div>
+    <div class="imgBox" style="background: linear-gradient(-225deg, #e91e63, #03a9f4)"></div>
+</section>
+<script>
+    function register() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {
+                "login": $('#login').val(),
+                "password": $('#password').val()
+            },
+            success: function (data) {
+                console.log("SUCCESS")
+            },
+            error: function (data) {
+                console.log("ERROR")
+            }
+        })
+    }
+</script>
 </body>
 </html>

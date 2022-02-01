@@ -6,11 +6,13 @@ import com.example.eshop.model.user.User;
 import com.example.eshop.repository.user.RoleRepository;
 import com.example.eshop.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.*;
@@ -50,6 +52,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public User get(Long id) throws ObjectNotFoundException {
         return userRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+    }
+
+    public List<User> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable).toList();
     }
 
 }
