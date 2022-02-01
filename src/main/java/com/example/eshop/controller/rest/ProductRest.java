@@ -3,7 +3,7 @@ package com.example.eshop.controller.rest;
 import com.example.eshop.dto.ProductDto;
 import com.example.eshop.dto.mapper.ProductMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.product.Product;
+import com.example.eshop.model.Product;
 import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,6 @@
-package com.example.eshop.repository.product;
+package com.example.eshop.repository;
 
-import com.example.eshop.model.product.Product;
-import org.hibernate.annotations.SQLUpdate;
+import com.example.eshop.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

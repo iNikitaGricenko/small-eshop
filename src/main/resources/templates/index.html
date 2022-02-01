@@ -10,7 +10,7 @@
 <script th:inline="javascript">
     function buy() {
         /*<![CDATA[*/
-        var login = [[${User.login}]];
+        var login = [[${User.email}]];
         var userId = [[${User.id}]];
         /*]]>*/
         let productId = $("#orderCreator").attr("data-product-id");

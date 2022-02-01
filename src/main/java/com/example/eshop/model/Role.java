@@ -1,4 +1,4 @@
-package com.example.eshop.model.user;
+package com.example.eshop.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;

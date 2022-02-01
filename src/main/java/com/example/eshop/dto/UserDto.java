@@ -9,8 +9,7 @@ import java.io.Serializable;
 
 @Data
 public class UserDto implements Serializable {
-    @NotNull
     private final Long id;
     @NotNull @Size(max = 345) @Email
-    private final String login;
+    private final String email;
 }

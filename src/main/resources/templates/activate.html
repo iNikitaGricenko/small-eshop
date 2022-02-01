@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Activation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<section class="section-login">
+    <div class="imgBox"></div>
+    <div class="contentBox">
+        <div class="formBox">
+            <h2 class="form-title" style="font-size: 1.3em; width: 100%;">
+                Account activated
+                <br>
+                <blockquote style="color: #935151; font-size: 0.8em;">
+                    Please enter password
+                </blockquote>
+            </h2>
+            <form th:action="@{/login}" method="post">
+                <div class="inputBox">
+                    <span>E-Mail</span>
+                    <input type="email" id="email" name="email" th:value="${User.email}" disabled>
+                </div>
+                <div class="inputBox">
+                    <span>Firstname</span>
+                    <input type="text" id="firstName" name="firstName" th:value="${User.firstName}" disabled>
+                </div>
+                <div class="inputBox">
+                    <span>Second name</span>
+                    <input type="text" id="secondName" name="secondName" th:value="${User.secondName}" disabled>
+                </div>
+                <div class="inputBox">
+                    <span>Surname</span>
+                    <input type="text" id="surname" name="surname" th:value="${User.surname}" disabled>
+                </div>
+                <div class="inputBox">
+                    <span>Address</span>
+                    <input type="text" id="address" name="address" th:value="${User.address}" disabled>
+                </div>
+
+                <div class="inputBox">
+                    <span>Password</span>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="inputBox">
+                    <input type="submit" value="Enter" onsubmit="activateAccount()" required>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="imgBox"></div>
+</section>
+<script th:inline="javascript">
+    function activateAccount() {
+        /*<![CDATA[*/
+        var userId = [[${User.id}]];
+        /*]]>*/
+        $.ajax({
+            type: 'PATCH',
+            url: 'http://localhost:8080/user',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: {
+                "id":userId,
+                "email":$('#email').val(),
+                "password":$('#password').val(),
+                "firstName":$('#firstName').val(),
+                "secondName":$('#secondName').val(),
+                "surname":$('#surname').val(),
+                "address":$('#address').val()
+            }
+        })
+    }
+</script>
+</body>
+</html>

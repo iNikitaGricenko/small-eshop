@@ -1,14 +1,13 @@
 package com.example.eshop.service;
 
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.product.Order;
-import com.example.eshop.model.user.User;
-import com.example.eshop.repository.product.OrderRepository;
+import com.example.eshop.model.Order;
+import com.example.eshop.model.User;
+import com.example.eshop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 
 @Service

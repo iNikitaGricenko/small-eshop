@@ -10,6 +10,10 @@
         <div class="imgBox"></div>
         <div class="contentBox">
             <div class="formBox">
+                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:if="${param.error[0]} == 'activation'">
+                    Activate your account
+                    <br>
+                    We have sent a message,<blockquote style="color: #935151; font-size: 0.8em;"> which contains activation link,</blockquote> to your email</h2>
                 <h2 class="form-title">Login</h2>
                 <form th:action="@{/login}" method="post">
                     <div class="inputBox">

@@ -1,6 +1,5 @@
-package com.example.eshop.model.product;
+package com.example.eshop.model;
 
-import com.example.eshop.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;

@@ -2,7 +2,6 @@ package com.example.eshop.controller;
 
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
-import com.example.eshop.service.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;

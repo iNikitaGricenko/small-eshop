@@ -61,7 +61,7 @@
 <script th:inline="javascript">
     function deleteOrder(id) {
         /*<![CDATA[*/
-        var login = [[${User.login}]];
+        var login = [[${User.email}]];
         var userId = [[${User.id}]];
         /*]]>*/
         $.ajax({

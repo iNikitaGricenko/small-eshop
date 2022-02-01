@@ -1,6 +1,6 @@
-package com.example.eshop.service.user;
+package com.example.eshop.service;
 
-import com.example.eshop.model.user.User;
+import com.example.eshop.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +28,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getLogin();
+        return user.getEmail();
     }
 
     @Override
@@ -48,6 +48,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isActivated();
     }
 }

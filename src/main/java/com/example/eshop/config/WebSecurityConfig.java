@@ -14,11 +14,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecuritConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userService;
 
-    public WebSecuritConfig(UserDetailsService userService) {
+    public WebSecurityConfig(UserDetailsService userService) {
         this.userService = userService;
     }
 
@@ -34,7 +34,7 @@ public class WebSecuritConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                         .antMatchers("/css/**").permitAll()
-                        .antMatchers("/login", "/register").not().authenticated()
+                        .antMatchers("/login", "/register", "/user/activate/**").not().authenticated()
                         .antMatchers(HttpMethod.POST, "/user").permitAll()
                         .antMatchers("/admin/**", "/user").hasRole("ADMIN")
                         .anyRequest().authenticated()
