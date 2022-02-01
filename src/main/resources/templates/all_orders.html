@@ -66,28 +66,30 @@
         </div>
         <!-- deleted orders details list end -->
         <!-- deleted orders details start -->
-        <div class="recentOrders">
-            <div class="cardHeader">
-                <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted products</h2>
+        <div id="productList">
+            <div class="recentOrders">
+                <div class="cardHeader">
+                    <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted products</h2>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Count</td>
+                        <td>Price</td>
+                        <td>Deleted at</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${deletedProducts}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.count}"></td>
+                        <td th:text="'$'+${product.price}"></td>
+                        <td th:data-id="${product.id}" onclick="backToSale(this.getAttribute('data-id'))"><span class="status DELETED" th:text="${product.deletedAt}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Count</td>
-                    <td>Price</td>
-                    <td>Deleted at</td>
-                </tr>
-                </thead>
-                <tbody id="productList">
-                <tr th:each="product : ${deletedProducts}">
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.count}"></td>
-                    <td th:text="'$'+${product.price}"></td>
-                    <td th:data-id="${product.id}" onclick="backToSale(this.getAttribute('data-id'))"><span class="status DELETED" th:text="${product.deletedAt}"></span></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
         <!-- deleted orders details list end -->
     </div>
@@ -96,10 +98,10 @@
     function backToSale(id) {
         $.ajax({
             type: 'POST',
-            url: 'product/return/'+id,
+            url: 'http://localhost:8080/product/return/'+id,
             success: function (data) {
-                alert("SUCCESSFULLY");
-                $('#productList').load("/all-orders #productList");
+                console.log("SUCCESSFULLY");
+                $('#productList').load("/admin/all-orders #productList");
             }
         })
     }

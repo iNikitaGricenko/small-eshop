@@ -18,7 +18,6 @@
         let description = $("#description").val();
         let count = $("#count").val();
         let date = new Date().toISOString().slice(0, 10);
-
         let body = {
             "id":0,
             "address":address,
@@ -34,60 +33,60 @@
                 {"id":productId}
             ]
         };
-        let jsonData = JSON.stringify(body);
-
-        console.log(jsonData);
+        body = JSON.stringify(body);
 
         $.ajax({
             type: 'POST',
-            url: '/order',
+            url: 'http://localhost:8080/order',
             dataType: 'json',
             contentType: 'application/json',
-            data: jsonData,
+            data: body,
             success: function (data) {
-                alert("SUCCESSFULLY")
+                console.log("SUCCESSFULLY")
             },
             error: function (data) {
                 alert("ERROR")
             }
         })
-
         openOrder()
     }
 </script>
 <body>
 <th:block th:insert="/blocks/header :: header"></th:block>
-<div class="container flex full-center" id="refresh">
-    <div class="card" th:each="product : ${products}">
-        <div class="imgBox">
-            <img src="">
-            <ul class="action">
-                <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))">
-                    <i class="fas fa-cart-arrow-down"></i>
-                    <span>To Order</span>
-                </li>
-                <li>
-                    <i class="fas fa-heart"></i>
-                    <span>Add to Wishlist</span>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')" th:data-product="${product.id}" onclick="deleteProduct(this.getAttribute('data-product'))">
-                    <i class="fas fa-trash"></i>
-                    <span>Delete</span>
-                </li>
-            </ul>
-        </div>
-        <div class="content">
-            <div class="productName">
-                <h3 class="product-title" th:text="${product.name}"></h3>
+<div id="refresh">
+
+    <div class="container flex" style="width: 100%">
+        <div class="card" th:each="product : ${products}">
+            <div class="imgBox">
+                <img src="">
+                <ul class="action">
+                    <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))">
+                        <i class="fas fa-cart-arrow-down"></i>
+                        <span>To Order</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-heart"></i>
+                        <span>Add to Wishlist</span>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" th:data-product="${product.id}" onclick="deleteProduct(this.getAttribute('data-product'))">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </li>
+                </ul>
             </div>
-            <div class="priceBox">
-                <h2 class="price" th:text="'$'+${product.price}"></h2>
-                <div class="rating">
-                    <i class="fas fa-star" onclick="rare(this)"></i>
-                    <i class="fas fa-star" onclick="rare(this)"></i>
-                    <i class="fas fa-star grey" onclick="rare(this)"></i>
-                    <i class="fas fa-star grey" onclick="rare(this)"></i>
-                    <i class="fas fa-star grey" onclick="rare(this)"></i>
+            <div class="content">
+                <div class="productName">
+                    <h3 class="product-title" th:text="${product.name}"></h3>
+                </div>
+                <div class="priceBox">
+                    <h2 class="price" th:text="'$'+${product.price}"></h2>
+                    <div class="rating">
+                        <i class="fas fa-star" onclick="rare(this)"></i>
+                        <i class="fas fa-star" onclick="rare(this)"></i>
+                        <i class="fas fa-star grey" onclick="rare(this)"></i>
+                        <i class="fas fa-star grey" onclick="rare(this)"></i>
+                        <i class="fas fa-star grey" onclick="rare(this)"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,9 +110,9 @@
     function deleteProduct(id) {
         $.ajax({
             type: "DELETE",
-            url: "/product/"+id,
+            url: "http://localhost:8080/product/"+id,
             success: function(data) {
-                alert("SUCCESSFULLY DELETED")
+                console.log("SUCCESSFULLY DELETED")
                 $('#refresh').load("/ #refresh");
             }
         })

@@ -31,17 +31,16 @@ public class WebSecuritConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                    .authorizeRequests()
-                        .antMatchers("/css/*", "/login").permitAll()
-                        .antMatchers("/", "/my-order").authenticated()
-                        .antMatchers("/all-orders").hasRole("ADMIN")
-                        .antMatchers("/*").permitAll()
+                .authorizeRequests()
+                        .antMatchers("/css/**").permitAll()
+                        .antMatchers("/login", "/register").not().authenticated()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 .and()
                     .formLogin()
                         .loginPage("/login")
                         .failureUrl("/login?error")
                         .defaultSuccessUrl("/?size=15")
-                        .permitAll()
                 .and()
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -51,6 +50,5 @@ public class WebSecuritConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .csrf()
                         .disable();
-
     }
 }

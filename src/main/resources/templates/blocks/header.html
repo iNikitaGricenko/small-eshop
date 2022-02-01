@@ -5,9 +5,9 @@
             <li><a href="/?size=15">Products</a></li>
             <li>
                 <a sec:authorize="hasRole('USER')" href="/my-orders">My Orders</a>
-                <a sec:authorize="hasRole('ADMIN')" href="/all-orders?size=15">Orders/Deleted Products</a>
+                <a sec:authorize="hasRole('ADMIN')" href="/admin/all-orders?size=15">Orders/Deleted Products</a>
             </li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/add-product">Add Product</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/add-product">Add Product</a></li>
         </ul>
     </nav>
     <span class="cta"><a class="button" href="/logout">Logout</a></span>

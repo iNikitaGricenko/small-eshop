@@ -83,7 +83,7 @@
         var address = $("#address").val();
         var description = $("#description").val();
         var count = $("#count").val();
-        var date =
+        var date = new Date();
 
         let body = {
             "id":orderId,
@@ -103,13 +103,13 @@
 
         $.ajax({
             type: 'PATCH',
-            url: '/order',
+            url: 'http://localhost:8080/order',
             dataType: 'json',
             contentType: 'application/json',
             data: jsonData,
             success: function (data) {
                 console.log("SUCCESS " + data)
-                $("#refresh").load("/my-orders/ #orders");
+                $("#refresh").load("http://localhost:8080/my-orders/ #orders");
             },
             error: function (data) {
                 console.log("ERROR " + data)
@@ -117,7 +117,6 @@
                 console.log(productId)
             }
         })
-
         openOrder();
     }
 </script>
