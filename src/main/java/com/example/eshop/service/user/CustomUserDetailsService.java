@@ -25,14 +25,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(login);
-        CustomUserDetails userDetails = null;
+        CustomUserDetails userDetails;
         if (user!=null) {
             userDetails = new CustomUserDetails();
             userDetails.setUser(user);
         } else {
             throw new UsernameNotFoundException("User not exist with email : " + login);
         }
-
         return userDetails;
     }
 
@@ -40,11 +39,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userRepository.existsByLogin(user.getLogin())) {
             return;
         }
-
         Set<Role> role = roleRepository.findById(2L).stream().collect(toSet());
         user.setRoles(role);
-
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
     }
 
     public User get(String login) {

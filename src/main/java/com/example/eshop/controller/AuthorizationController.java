@@ -1,7 +1,5 @@
 package com.example.eshop.controller;
 
-import com.example.eshop.dto.mapper.OrderMapper;
-import com.example.eshop.model.product.Order;
 import com.example.eshop.model.user.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
@@ -14,9 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,8 +33,18 @@ public class AuthorizationController {
     }
 
     @GetMapping("/login")
-     public String getLoginPage() {
-        return "login";
+    @PreAuthorize(value = "!isAuthenticated()")
+    public String getLoginPage() { return "login"; }
+
+    @GetMapping("/register")
+    @PreAuthorize(value = "!isAuthenticated()")
+    public String getRegisterPage() { return "register"; }
+
+    @PostMapping("/register")
+    @PreAuthorize(value = "!isAuthenticated()")
+    public String registrate(@ModelAttribute("User") User user) {
+        userService.add(user);
+        return "/login";
     }
 
     @GetMapping("/")
