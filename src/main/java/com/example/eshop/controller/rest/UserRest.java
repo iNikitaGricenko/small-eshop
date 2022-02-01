@@ -1,6 +1,7 @@
 package com.example.eshop.controller.rest;
 
 import com.example.eshop.dto.UserDto;
+import com.example.eshop.dto.UserVerificationDto;
 import com.example.eshop.dto.mapper.UserMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.User;
@@ -42,9 +43,11 @@ public class UserRest {
     }
 
     @PatchMapping
-    public RedirectView activate(@ModelAttribute("user") User user) {
+    public RedirectView activate(@RequestBody UserVerificationDto dto) {
+        User user = mapper.toUser(dto);
         service.add(user);
-        return new RedirectView("/login?error=activation");
+
+        return new RedirectView("/login");
     }
 
 }
