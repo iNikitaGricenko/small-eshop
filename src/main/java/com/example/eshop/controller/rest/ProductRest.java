@@ -18,43 +18,43 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductRest {
 
-    private final ProductService service;
-    private final ProductMapper mapper;
+    private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @GetMapping
     public List<ProductDto> getAll(Pageable pageable) {
-        return mapper.toDtos(service.getAll(pageable));
+        return productMapper.toDtos(productService.getAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ProductDto getOne(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        return mapper.toDto(service.get(id));
+        return productMapper.toDto(productService.get(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto add(@RequestBody ProductDto dto) {
-        Product product = mapper.toProduct(dto);
-        return mapper.toDto(service.save(product));
+        Product product = productMapper.toProduct(dto);
+        return productMapper.toDto(productService.save(product));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        service.remove(id);
+        productService.remove(id);
     }
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
     public ProductDto edit(@RequestBody ProductDto dto) throws ObjectNotFoundException {
-        Product product = mapper.toProduct(dto);
-        return mapper.toDto(service.edit(product));
+        Product product = productMapper.toProduct(dto);
+        return productMapper.toDto(productService.edit(product));
     }
 
     @PostMapping("/return/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> backToSale(@PathVariable Long id) throws ObjectNotFoundException {
-        service.backToSale(id);
+        productService.backToSale(id);
         return ResponseEntity.ok().build();
     }
 

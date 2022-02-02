@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Map;
@@ -22,25 +21,25 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserRest {
 
-    private final CustomUserDetailsService service;
-    private final UserMapper mapper;
+    private final CustomUserDetailsService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
     public List<UserDto> getAll(Pageable pageable) {
-        return mapper.toDtos(service.getAll(pageable));
+        return userMapper.toDtos(userService.getAll(pageable));
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> add(@RequestBody UserCreatorDto dto) {
-        User user = mapper.toUser(dto);
-        service.add(user);
+        User user = userMapper.toUser(dto);
+        userService.add(user);
         return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
     }
 
     @GetMapping("/activate")
     public ModelAndView activatePage(@RequestParam("key") String code) throws ObjectNotFoundException {
         ModelAndView modelAndView = new ModelAndView("activate");
-        User user = service.findByActivationCode(code);
+        User user = userService.findByActivationCode(code);
 
         modelAndView.addObject("User", user);
         return modelAndView;
@@ -48,8 +47,8 @@ public class UserRest {
 
     @PostMapping("/activate")
     public ResponseEntity<?> activate(@RequestBody UserVerificationDto dto) {
-        User user = mapper.toUser(dto);
-        service.activate(user);
+        User user = userMapper.toUser(dto);
+        userService.activate(user);
 
         return ResponseEntity.ok(Map.of("redirect",  "/login"));
     }

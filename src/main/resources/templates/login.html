@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <title>Authorize page</title>
+    <title th:text="#{login_title}">Authorize page</title>
 </head>
 <body>
 <section class="section-login">
@@ -11,32 +12,32 @@
     <div class="contentBox">
         <div class="formBox">
             <div th:unless="${param.error} == null">
-                <h2 class="form-title" style="color: red; font-size: 1.3em;">
+                <h2 class="form-title" style="color: red; font-size: 1.3em;" th:text="#{login_def_error}">
                     Error
                 </h2>
                 <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;"
-                    th:if="${param.error[0]} == 'activation'">
+                    th:if="${param.error[0]} == 'activation'" th:text="#{activate_account}">
                     Activate your account
-                    <br>
+                    <br th:text="#{activate_account_sent_message}">
                     We have sent a message,
-                    <blockquote style="color: #935151; font-size: 0.8em;"> which contains activation link,</blockquote>
+                    <blockquote style="color: #935151; font-size: 0.8em;" th:text="#{activate_account_contains_activation}"> which contains activation link,</blockquote>
                     to your email</h2>
             </div>
-            <h2 class="form-title">Login</h2>
+            <h2 class="form-title" th:text="#{login_headline}">Login</h2>
             <form th:action="@{/login}" method="post">
                 <div class="inputBox">
-                    <span>E-Mail</span>
+                    <span th:text="#{email}">E-Mail</span>
                     <input type="email" name="username" required>
                 </div>
                 <div class="inputBox">
-                    <span>Password</span>
+                    <span th:text="#{password}">Password</span>
                     <input type="password" name="password" required>
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Sign in" required>
+                    <input type="submit" th:value="#{sign_in}" required>
                 </div>
                 <div class="inputBox">
-                    <a href="/register">Still don`t have account yet? </a>
+                    <a href="/register" th:text="#{dont_have_account_ask}">Still don`t have account yet? </a>
                 </div>
             </form>
         </div>
