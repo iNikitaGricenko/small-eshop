@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Activation</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -11,42 +12,40 @@
     <div class="contentBox">
         <div class="formBox">
             <h2 class="form-title" style="font-size: 1.3em; width: 100%;">
-                Account activated
+                To activate account set password
                 <br>
                 <blockquote style="color: #935151; font-size: 0.8em;">
                     Please enter password
                 </blockquote>
             </h2>
-            <form th:action="@{/login}" method="post">
-                <div class="inputBox">
-                    <span>E-Mail</span>
-                    <input type="email" id="email" name="email" th:value="${User.email}" disabled>
-                </div>
-                <div class="inputBox">
-                    <span>Firstname</span>
-                    <input type="text" id="firstName" name="firstName" th:value="${User.firstName}" disabled>
-                </div>
-                <div class="inputBox">
-                    <span>Second name</span>
-                    <input type="text" id="secondName" name="secondName" th:value="${User.secondName}" disabled>
-                </div>
-                <div class="inputBox">
-                    <span>Surname</span>
-                    <input type="text" id="surname" name="surname" th:value="${User.surname}" disabled>
-                </div>
-                <div class="inputBox">
-                    <span>Address</span>
-                    <input type="text" id="address" name="address" th:value="${User.address}" disabled>
-                </div>
+            <div class="inputBox">
+                <span>E-Mail</span>
+                <input type="email" id="email" name="email" th:value="${User.email}" disabled>
+            </div>
+            <div class="inputBox">
+                <span>Firstname</span>
+                <input type="text" id="firstName" name="firstName" th:value="${User.firstName}" disabled>
+            </div>
+            <div class="inputBox">
+                <span>Second name</span>
+                <input type="text" id="secondName" name="secondName" th:value="${User.secondName}" disabled>
+            </div>
+            <div class="inputBox">
+                <span>Surname</span>
+                <input type="text" id="surname" name="surname" th:value="${User.surname}" disabled>
+            </div>
+            <div class="inputBox">
+                <span>Address</span>
+                <input type="text" id="address" name="address" th:value="${User.address}" disabled>
+            </div>
 
-                <div class="inputBox">
-                    <span>Password</span>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="inputBox">
-                    <input type="submit" value="Enter" onsubmit="activateAccount()" required>
-                </div>
-            </form>
+            <div class="inputBox">
+                <span>Password</span>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="inputBox">
+                <input type="submit" value="Enter" onclick="activateAccount()" required>
+            </div>
         </div>
     </div>
     <div class="imgBox"></div>
@@ -55,20 +54,31 @@
     function activateAccount() {
         /*<![CDATA[*/
         var userId = [[${User.id}]];
+        var activationCode = [[${User.activationCode}]];
         /*]]>*/
+        let body = {
+            "id":userId,
+            "email":$('#email').val(),
+            "password":$('#password').val(),
+            "firstName":$('#firstName').val(),
+            "secondName":$('#secondName').val(),
+            "surname":$('#surname').val(),
+            "address":$('#address').val()
+        };
+        body = JSON.stringify(body);
         $.ajax({
-            type: 'PATCH',
-            url: 'http://localhost:8080/user',
+            type: 'POST',
+            url: 'http://localhost:8080/user/activate',
             dataType: 'json',
             contentType: 'application/json',
-            data: {
-                "id":userId,
-                "email":$('#email').val(),
-                "password":$('#password').val(),
-                "firstName":$('#firstName').val(),
-                "secondName":$('#secondName').val(),
-                "surname":$('#surname').val(),
-                "address":$('#address').val()
+            data: body,
+            success: function (data) {
+                console.log("SUCCESSFULLY")
+                window.location.href = data.redirect;
+            },
+            error: function (data) {
+                console.log(body)
+                console.log("ERROR")
             }
         })
     }

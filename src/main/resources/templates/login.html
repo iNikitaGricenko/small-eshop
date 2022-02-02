@@ -6,33 +6,41 @@
     <title>Authorize page</title>
 </head>
 <body>
-    <section class="section-login">
-        <div class="imgBox"></div>
-        <div class="contentBox">
-            <div class="formBox">
-                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:if="${param.error[0]} == 'activation'">
+<section class="section-login">
+    <div class="imgBox"></div>
+    <div class="contentBox">
+        <div class="formBox">
+            <div th:unless="${param.error} == null">
+                <h2 class="form-title" style="color: red; font-size: 1.3em;">
+                    Error
+                </h2>
+                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;"
+                    th:if="${param.error[0]} == 'activation'">
                     Activate your account
                     <br>
-                    We have sent a message,<blockquote style="color: #935151; font-size: 0.8em;"> which contains activation link,</blockquote> to your email</h2>
-                <h2 class="form-title">Login</h2>
-                <form th:action="@{/login}" method="post">
-                    <div class="inputBox">
-                        <span>E-Mail</span>
-                        <input type="email" name="username" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Password</span>
-                        <input type="password" name="password" required>
-                    </div>
-                    <div class="inputBox">
-                        <input type="submit" value="Sign in" required>
-                    </div>
-                    <div class="inputBox">
-                        <a href="/register">Still don`t have account yet? </a>
-                    </div>
-                </form>
+                    We have sent a message,
+                    <blockquote style="color: #935151; font-size: 0.8em;"> which contains activation link,</blockquote>
+                    to your email</h2>
             </div>
+            <h2 class="form-title">Login</h2>
+            <form th:action="@{/login}" method="post">
+                <div class="inputBox">
+                    <span>E-Mail</span>
+                    <input type="email" name="username" required>
+                </div>
+                <div class="inputBox">
+                    <span>Password</span>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="inputBox">
+                    <input type="submit" value="Sign in" required>
+                </div>
+                <div class="inputBox">
+                    <a href="/register">Still don`t have account yet? </a>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 </body>
 </html>

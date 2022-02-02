@@ -1,5 +1,6 @@
 package com.example.eshop.controller.rest;
 
+import com.example.eshop.dto.UserCreatorDto;
 import com.example.eshop.dto.UserDto;
 import com.example.eshop.dto.UserVerificationDto;
 import com.example.eshop.dto.mapper.UserMapper;
@@ -8,11 +9,13 @@ import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -28,13 +31,14 @@ public class UserRest {
     }
 
     @PostMapping
-    public RedirectView add(@ModelAttribute("user") User user) {
+    public ResponseEntity<Map<String, String>> add(@RequestBody UserCreatorDto dto) {
+        User user = mapper.toUser(dto);
         service.add(user);
-        return new RedirectView("/login?error=activation");
+        return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
     }
 
-    @GetMapping("/activate/{code}")
-    public ModelAndView activatePage(@PathVariable("code") String code) throws ObjectNotFoundException {
+    @GetMapping("/activate")
+    public ModelAndView activatePage(@RequestParam("key") String code) throws ObjectNotFoundException {
         ModelAndView modelAndView = new ModelAndView("activate");
         User user = service.findByActivationCode(code);
 
@@ -42,12 +46,12 @@ public class UserRest {
         return modelAndView;
     }
 
-    @PatchMapping
-    public RedirectView activate(@RequestBody UserVerificationDto dto) {
+    @PostMapping("/activate")
+    public ResponseEntity<?> activate(@RequestBody UserVerificationDto dto) {
         User user = mapper.toUser(dto);
-        service.add(user);
+        service.activate(user);
 
-        return new RedirectView("/login");
+        return ResponseEntity.ok(Map.of("redirect",  "/login"));
     }
 
 }
