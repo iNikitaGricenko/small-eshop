@@ -10,6 +10,7 @@ import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,7 +32,7 @@ public class UserRest {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> add(@Valid @RequestBody UserCreatorDto dto) {
+    public ResponseEntity<?> add(@Valid @RequestBody UserCreatorDto dto) {
         User user = userMapper.toUser(dto);
         userService.add(user);
         return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
