@@ -291,7 +291,6 @@ header {
     background: linear-gradient(275deg, #e91e63, #03a9f4);
     padding: 10px 20px;
     color: #fff;
-    margin: 5px 0;
     transition: 500ms;
 }
 .orders li:nth-child(1) {
@@ -325,6 +324,7 @@ header {
 }
 .orders li .buttons {
     width: fit-content;
+    min-width: 90px;
     cursor: pointer;
     text-align: center;
     margin-inline: 5px;

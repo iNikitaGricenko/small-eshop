@@ -17,19 +17,20 @@ public class OrderDto implements Serializable {
 
     private final Long id;
 
-    @NotNull @Size(max = 200)
+    @NotNull(message = "{msg_address_notnull}")
+    @Size(max = 200)
     private final String address;
 
-    @Size(max = 1024)
+    @Size(max = 1024, message = "{msg_description_size}")
     private final String description;
 
-    @NotNull
+    @NotNull(message = "{msg_status_notnull}")
     private final String status;
 
-    @Min(1)
+    @Min(value = 1, message = "{msg_count_min}")
     private final int count;
 
-    @NotNull
+    @NotNull(message = "{msg_user_notnull}")
     private final UserDto user;
     private final Set<ProductDto> products;
 }
