@@ -13,14 +13,14 @@
 <div class="flex full-center" id="refresh">
     <ul class="orders" id="orders">
         <li>
-            <span class="name">Product name</span>
-            <span class="price">Price</span>
-            <span class="price">Count</span>
-            <span class="address">Address</span>
-            <span class="date">Register Date</span>
-            <span class="description">Description</span>
-            <span class="buttons">Edit</span>
-            <span class="buttons">Delete</span>
+            <span class="name" th:text="#{product_name}">P</span>
+            <span class="price" th:text="#{price}"></span>
+            <span class="price" th:text="#{count}"></span>
+            <span class="address" th:text="#{address}"></span>
+            <span class="date" th:text="#{register_date}"></span>
+            <span class="description" th:text="#{description}"></span>
+            <span class="buttons" th:text="#{edit}"></span>
+            <span class="buttons" th:text="#{delete}"></span>
         </li>
         <li th:each="order : ${orders}">
             <th:block th:each="product : ${order.products}">
@@ -76,7 +76,7 @@
     }
     function edit() {
         /*<![CDATA[*/
-        var login = [[${User.login}]];
+        var email = [[${User.email}]];
         var userId = [[${User.id}]];
         /*]]>*/
         var orderId = $("#orderEditor").attr("data-order-id");
@@ -94,7 +94,7 @@
             "date":date,
             "user":{
                 "id":userId,
-                "login":login
+                "email":email
             },
             "products": [
                 {"id":productId}

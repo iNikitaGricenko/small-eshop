@@ -320,15 +320,14 @@ header {
 }
 .orders li .description {
     width: 410px;
-    white-space: normal;
     text-align: center;
     white-space: pre-wrap;
 }
 .orders li .buttons {
-    width: 70px;
-    text-align: right;
+    width: fit-content;
     cursor: pointer;
     text-align: center;
+    margin-inline: 5px;
 }
 .orders li .buttons:hover i {
     color: #2b2b2b;

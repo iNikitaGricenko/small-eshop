@@ -13,21 +13,21 @@
     <section class="section-login" style="justify-content: center">
         <div class="contentBox">
             <div class="formBox" style="width: auto">
-                <h2 class="form-title">Add Product Information</h2>
+                <h2 class="form-title" th:text="#{add_product_information}"></h2>
                 <div class="inputBox">
-                    <span>Name</span>
+                    <span th:text="#{name}">Name</span>
                     <input type="text" name="name" id="name" required>
                 </div>
                 <div class="inputBox">
-                    <span>Count in stock</span>
+                    <span th:text="#{count_in_stock}"></span>
                     <input type="number" min="0" step="1" name="count" id="count" required>
                 </div>
                 <div class="inputBox">
-                    <span>Price</span>
+                    <span th:text="#{price}"></span>
                     <input type="number" min="1" step="1" name="price" id="price" required>
                 </div>
                 <div class="inputBox">
-                    <input type="button" value="Add" onclick="addProduct()" required>
+                    <input type="button" th:value="#{add}" onclick="addProduct()" required>
                 </div>
             </div>
         </div>
