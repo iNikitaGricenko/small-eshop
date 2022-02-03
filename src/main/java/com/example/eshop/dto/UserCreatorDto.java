@@ -3,7 +3,6 @@ package com.example.eshop.dto;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -11,33 +10,33 @@ import java.io.Serializable;
 @Data
 public class UserCreatorDto implements Serializable {
 
-    @NotEmpty(message = "email is not present")
-    @Email(message = "email have to be like example 'example@yourmail.com'")
+    @NotNull(message = "{msg_email_notnull}")
+    @Email(message = "{msg_email}")
     @Size(max = 345,
-            message = "email is to big, required maximum 345 characters")
+            message = "{msg_email_size}")
     private final String email;
 
-    @NotNull(message = "first name is not present")
+    @NotNull(message = "{msg_first_name_notnull}")
     @Size(max = 150,
             min = 5,
-            message = "first name length have to be less then 150 and bigger then 5 characters")
+            message = "{msg_first_name_size}")
     private final String firstName;
 
-    @NotNull(message = "second name is not present")
+    @NotNull(message = "{msg_second_name_notnull}")
     @Size(max = 165,
             min = 5,
-            message = "second name length have to be less then 165 and bigger then 5 characters")
+            message = "{msg_second_name_size}")
     private final String secondName;
 
-    @NotNull(message = "surname is not present")
+    @NotNull(message = "{msg_surname_notnull}")
     @Size(max = 150,
             min = 5,
-            message = "surname length have to be less then 150 and bigger then 5 characters")
+            message = "{msg_surname_size}")
     private final String surname;
 
-    @NotNull(message = "address is not present")
+    @NotNull(message = "{msg_address_notnull}")
     @Size(max = 1024,
             min = 5,
-            message = "address length have to be less then 1024 and bigger then 5 characters")
+            message = "{msg_address_size}")
     private final String address;
 }
