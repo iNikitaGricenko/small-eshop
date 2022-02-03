@@ -4,38 +4,38 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Authorize page</title>
+    <title th:text="#{register_headline}"></title>
 </head>
 <body>
 <section class="section-login">
     <div class="contentBox">
         <div class="formBox">
-            <h2 class="form-title">Register</h2>
+            <h2 class="form-title" th:text="#{register_headline}"></h2>
                 <div class="inputBox">
-                    <span>E-Mail</span>
+                    <span th:text="#{email}"></span>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="inputBox">
-                    <span>Firstname</span>
+                    <span th:text="#{first_name}"></span>
                     <input type="text" id="firstName" name="firstName" required>
                 </div>
                 <div class="inputBox">
-                    <span>Second name</span>
+                    <span th:text="#{second_name}"></span>
                     <input type="text" id="secondName" name="secondName" required>
                 </div>
                 <div class="inputBox">
-                    <span>Surname</span>
+                    <span th:text="#{surname}"></span>
                     <input type="text" id="surname" name="surname" required>
                 </div>
                 <div class="inputBox">
-                    <span>Address</span>
+                    <span th:text="#{address}"></span>
                     <input type="text" id="address" name="address" required>
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Sign up" onclick="register()" required>
+                    <input type="submit" th:value="#{sign_up}" onclick="register()" required>
                 </div>
                 <div class="inputBox">
-                    <a href="/login">Already have account?</a>
+                    <a href="/login" th:text="#{already_have_account_ask}"></a>
                 </div>
         </div>
     </div>
@@ -61,9 +61,6 @@
             success: function (data) {
                 console.log("SUCCESS")
                 window.location.href = data.redirect;
-            },
-            error: function (data) {
-                console.log("ERROR")
             }
         })
     }

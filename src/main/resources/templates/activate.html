@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <title>Activation</title>
+    <title th:text="#{activation_headline}"></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -11,40 +11,38 @@
     <div class="imgBox"></div>
     <div class="contentBox">
         <div class="formBox">
-            <h2 class="form-title" style="font-size: 1.3em; width: 100%;">
-                To activate account set password
+            <h2 class="form-title" style="font-size: 1.3em; width: 100%;" th:inline="text">
+                [[#{to_activate_acc}]]
                 <br>
-                <blockquote style="color: #935151; font-size: 0.8em;">
-                    Please enter password
-                </blockquote>
+                <blockquote style="color: #935151; font-size: 0.8em;" th:text="#{enter_password}"></blockquote>
             </h2>
             <div class="inputBox">
-                <span>E-Mail</span>
+                <span th:text="#{email}"></span>
                 <input type="email" id="email" name="email" th:value="${User.email}" disabled>
             </div>
             <div class="inputBox">
-                <span>Firstname</span>
+                <span th:text="#{first_name}"></span>
                 <input type="text" id="firstName" name="firstName" th:value="${User.firstName}" disabled>
             </div>
             <div class="inputBox">
-                <span>Second name</span>
+                <span th:text="#{second_name}"></span>
                 <input type="text" id="secondName" name="secondName" th:value="${User.secondName}" disabled>
             </div>
             <div class="inputBox">
-                <span>Surname</span>
+                <span th:text="#{surname}"></span>
                 <input type="text" id="surname" name="surname" th:value="${User.surname}" disabled>
             </div>
             <div class="inputBox">
-                <span>Address</span>
+                <span th:text="#{address}"></span>
                 <input type="text" id="address" name="address" th:value="${User.address}" disabled>
             </div>
 
             <div class="inputBox">
-                <span>Password</span>
+                <span th:text="#{password}"></span>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="inputBox">
-                <input type="submit" value="Enter" onclick="activateAccount()" required>
+                <input type="submit" th:value="#{enter}" onclick="activateAccount()" required>
             </div>
         </div>
     </div>

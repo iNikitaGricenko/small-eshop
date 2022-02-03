@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class UserRest {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> add(@RequestBody UserCreatorDto dto) {
+    public ResponseEntity<Map<String, String>> add(@Valid @RequestBody UserCreatorDto dto) {
         User user = userMapper.toUser(dto);
         userService.add(user);
         return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
@@ -46,7 +47,7 @@ public class UserRest {
     }
 
     @PostMapping("/activate")
-    public ResponseEntity<?> activate(@RequestBody UserVerificationDto dto) {
+    public ResponseEntity<?> activate(@Valid @RequestBody UserVerificationDto dto) {
         User user = userMapper.toUser(dto);
         userService.activate(user);
 

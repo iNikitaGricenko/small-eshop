@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class ProductRest {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto add(@RequestBody ProductDto dto) {
+    public ProductDto add(@Valid @RequestBody ProductDto dto) {
         Product product = productMapper.toProduct(dto);
         return productMapper.toDto(productService.save(product));
     }
@@ -46,7 +47,7 @@ public class ProductRest {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public ProductDto edit(@RequestBody ProductDto dto) throws ObjectNotFoundException {
+    public ProductDto edit(@Valid @RequestBody ProductDto dto) throws ObjectNotFoundException {
         Product product = productMapper.toProduct(dto);
         return productMapper.toDto(productService.edit(product));
     }

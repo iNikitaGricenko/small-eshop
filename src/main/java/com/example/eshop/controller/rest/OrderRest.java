@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -43,7 +44,7 @@ public class OrderRest {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto add(@RequestBody OrderDto dto) {
+    public OrderDto add(@Valid @RequestBody OrderDto dto) {
         Order order = orderMapper.toOrder(dto);
         return orderMapper.toDto(orderService.save(order));
     }
@@ -57,7 +58,7 @@ public class OrderRest {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public OrderDto edit(@RequestBody OrderDto dto) throws ObjectNotFoundException {
+    public OrderDto edit(@Valid @RequestBody OrderDto dto) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
         order = orderService.edit(order);
 
