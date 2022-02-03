@@ -7,27 +7,28 @@
     <title>Product Creator</title>
 </head>
 <body>
+<th:block th:insert="/blocks/language :: choicer"></th:block>
 <th:block th:insert="/blocks/header :: header"></th:block>
 <div class="container flex full-center" style="width: 100%" id="refresh">
     <section class="section-login" style="justify-content: center">
         <div class="contentBox">
             <div class="formBox" style="width: auto">
                 <h2 class="form-title">Add Product Information</h2>
-                    <div class="inputBox">
-                        <span>Name</span>
-                        <input type="text" name="name" id="name" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Count in stock</span>
-                        <input type="number" min="0" step="1" name="count" id="count" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>Price</span>
-                        <input type="number" min="1" step="1" name="price" id="price" required>
-                    </div>
-                    <div class="inputBox">
-                        <input type="button" value="Add" onclick="addProduct()" required>
-                    </div>
+                <div class="inputBox">
+                    <span>Name</span>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="inputBox">
+                    <span>Count in stock</span>
+                    <input type="number" min="0" step="1" name="count" id="count" required>
+                </div>
+                <div class="inputBox">
+                    <span>Price</span>
+                    <input type="number" min="1" step="1" name="price" id="price" required>
+                </div>
+                <div class="inputBox">
+                    <input type="button" value="Add" onclick="addProduct()" required>
+                </div>
             </div>
         </div>
     </section>
@@ -52,7 +53,5 @@
         })
     }
 </script>
-</body>
-</html>
 </body>
 </html>
