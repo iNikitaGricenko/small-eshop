@@ -26,6 +26,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -75,6 +76,8 @@ public class OrderController {
     @ResponseStatus(OK)
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        System.out.println(userDetails.getUser().getId());
 
         if (!orderService.existUser(userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
