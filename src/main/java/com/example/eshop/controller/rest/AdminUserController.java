@@ -4,6 +4,7 @@ import com.example.eshop.dto.UserDto;
 import com.example.eshop.dto.mapper.UserMapper;
 import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,6 @@ public class AdminUserController {
 
     @GetMapping
     public List<UserDto> getAll(Pageable pageable) {
-        return userMapper.toDtos(userService.getAll(pageable));
+        return userMapper.toDtos(userService.getAll(pageable).toList()); /*TODO: realize returning Page*/
     }
 }

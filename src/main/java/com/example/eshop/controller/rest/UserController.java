@@ -38,13 +38,9 @@ public class UserController {
     @PostMapping("/activate")
     public ResponseEntity<?> activate(@Valid @RequestBody UserVerificationDto dto, @RequestParam("key") String code) throws ObjectNotFoundException {
         User user = userMapper.toUser(dto);
-        User foundedUser = userService.findByActivationCode(code);
 
-        if (foundedUser.getEmail().equals(user.getEmail())) {
-            userService.activate(user);
-            return ResponseEntity.ok(Map.of("redirect",  "/login"));
-        }
-        return ResponseEntity.status(FORBIDDEN).build();
+        userService.isUserCode(user, code);
+        userService.activate(user);
+        return ResponseEntity.ok(Map.of("redirect",  "/login"));
     }
-
 }
