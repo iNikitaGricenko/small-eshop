@@ -1,34 +1,35 @@
 package com.example.eshop.controller;
 
+import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
 import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.security.Principal;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class AuthenticatedController {
+public class MainController {
 
     private final ProductService productService;
     private final OrderService orderService;
     private final CustomUserDetailsService userService;
 
     @ModelAttribute("User")
-    public User getUser(Principal principal) {
-        if (principal == null) {
+    public User getUser(Authentication authentication) {
+        if (authentication == null) {
             return new User();
         }
-        return userService.get(principal.getName());
+        return (User) authentication.getPrincipal();
     }
 
     @GetMapping
@@ -37,10 +38,17 @@ public class AuthenticatedController {
         return "index";
     }
 
-    @GetMapping("/my-orders")
-    public String getOrderPage(Model model, Principal principal, Pageable pageable) {
-        User user = userService.get(principal.getName());
+    @GetMapping("/my/orders")
+    public String getOrderPage(Model model, Authentication authentication, Pageable pageable) {
+        User user = (User) authentication.getPrincipal();
         model.addAttribute("orders", orderService.getAll(pageable, user));
         return "my_orders";
+    }
+
+    @GetMapping("/activate")
+    public String activatePage(Model model, @RequestParam("key") String code) throws ObjectNotFoundException {
+        User user = userService.findByActivationCode(code);
+        model.addAttribute("email", user.getEmail());
+        return "activate";
     }
 }

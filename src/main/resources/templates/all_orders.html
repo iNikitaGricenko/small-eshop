@@ -32,7 +32,7 @@
                     <th:block th:each="product : ${order.products}">
                         <td th:text="${product.name} +' (count '+ ${order.count}+')'">Star Refrigerator</td>
                         <td th:text="'$'+${order.count} * ${product.price}">$1200</td>
-                        <td th:text="${order.user.login}">User</td>
+                        <td th:text="${order.user.email}">User</td>
                         <td th:text="${order.address}">User</td>
                         <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
                     </th:block>
@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="order : ${deletedOrders}">
-                    <td th:text="${order.user.login}"></td>
+                    <td th:text="${order.user.email}"></td>
                     <td th:text="${order.address}"></td>
                     <td th:text="${order.count}"></td>
                     <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
@@ -99,10 +99,10 @@
     function backToSale(id) {
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/product/return/'+id,
+            url: 'http://localhost:8080/admin/product/return/'+id,
             success: function (data) {
                 console.log("SUCCESSFULLY");
-                $('#productList').load("/admin/all-orders #productList");
+                $('#productList').load("/admin/all/orders #productList");
             }
         })
     }

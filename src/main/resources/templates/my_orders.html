@@ -45,7 +45,7 @@
         $("#description").val(data.description);
     }
     function editOrder(orderId, productId, count) {
-        $.get("/order/"+orderId, function(data) {
+        $.get("/order/my/"+orderId, function(data) {
             loadModal(data);
         });
 
@@ -70,7 +70,7 @@
             url: 'http://localhost:8080/order/'+id,
             success: function (data) {
                 console.log("SUCCESS " + data)
-                $("#refresh").load("/my-orders/ #orders");
+                $("#refresh").load("/my/orders/ #orders");
             }
         })
     }
@@ -110,7 +110,7 @@
             data: jsonData,
             success: function (data) {
                 console.log("SUCCESS " + data)
-                $("#refresh").load("http://localhost:8080/my-orders/ #orders");
+                $("#refresh").load("http://localhost:8080/my/orders/ #orders");
             },
             error: function (data) {
                 console.log("ERROR " + data)

@@ -110,7 +110,7 @@
     function deleteProduct(id) {
         $.ajax({
             type: "DELETE",
-            url: "http://localhost:8080/product/"+id,
+            url: "http://localhost:8080/admin/product/"+id,
             success: function(data) {
                 console.log("SUCCESSFULLY DELETED")
                 $('#refresh').load("/ #refresh");

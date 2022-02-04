@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+<th:block th:insert="/blocks/language :: choicer"></th:block>
 <section class="section-login">
     <div class="imgBox"></div>
     <div class="contentBox">
@@ -18,23 +19,7 @@
             </h2>
             <div class="inputBox">
                 <span th:text="#{email}"></span>
-                <input type="email" id="email" name="email" th:value="${User.email}" disabled>
-            </div>
-            <div class="inputBox">
-                <span th:text="#{first_name}"></span>
-                <input type="text" id="firstName" name="firstName" th:value="${User.firstName}" disabled>
-            </div>
-            <div class="inputBox">
-                <span th:text="#{second_name}"></span>
-                <input type="text" id="secondName" name="secondName" th:value="${User.secondName}" disabled>
-            </div>
-            <div class="inputBox">
-                <span th:text="#{surname}"></span>
-                <input type="text" id="surname" name="surname" th:value="${User.surname}" disabled>
-            </div>
-            <div class="inputBox">
-                <span th:text="#{address}"></span>
-                <input type="text" id="address" name="address" th:value="${User.address}" disabled>
+                <input type="email" id="email" name="email" th:value="${email}" disabled>
             </div>
 
             <div class="inputBox">
@@ -48,25 +33,16 @@
     </div>
     <div class="imgBox"></div>
 </section>
-<script th:inline="javascript">
+<script>
     function activateAccount() {
-        /*<![CDATA[*/
-        var userId = [[${User.id}]];
-        var activationCode = [[${User.activationCode}]];
-        /*]]>*/
         let body = {
-            "id":userId,
             "email":$('#email').val(),
-            "password":$('#password').val(),
-            "firstName":$('#firstName').val(),
-            "secondName":$('#secondName').val(),
-            "surname":$('#surname').val(),
-            "address":$('#address').val()
+            "password":$('#password').val()
         };
         body = JSON.stringify(body);
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/user/activate',
+            url: window.location.href,
             dataType: 'json',
             contentType: 'application/json',
             data: body,

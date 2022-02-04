@@ -6,38 +6,19 @@ import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.Product;
 import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/admin/product")
 @RequiredArgsConstructor
-public class ProductRest {
+public class AdminProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
-
-    @GetMapping
-    public List<ProductDto> getAll(Pageable pageable) {
-        return productMapper.toDtos(productService.getAll(pageable));
-    }
-
-    @GetMapping("/{id}")
-    public ProductDto getOne(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        return productMapper.toDto(productService.get(id));
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto add(@Valid @RequestBody ProductDto dto) {
-        Product product = productMapper.toProduct(dto);
-        return productMapper.toDto(productService.save(product));
-    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -50,6 +31,13 @@ public class ProductRest {
     public ProductDto edit(@Valid @RequestBody ProductDto dto) throws ObjectNotFoundException {
         Product product = productMapper.toProduct(dto);
         return productMapper.toDto(productService.edit(product));
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDto add(@Valid @RequestBody ProductDto dto) {
+        Product product = productMapper.toProduct(dto);
+        return productMapper.toDto(productService.save(product));
     }
 
     @PostMapping("/return/{id}")
