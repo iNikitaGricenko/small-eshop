@@ -43,7 +43,8 @@ public class ProductService {
 
     public Product edit(Product product) throws ObjectNotFoundException {
         Long id = product.getId();
-        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
+        productRepository.existById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         return productRepository.save(product);
     }
 

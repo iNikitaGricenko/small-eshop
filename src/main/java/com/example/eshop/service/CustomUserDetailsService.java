@@ -1,5 +1,6 @@
 package com.example.eshop.service;
 
+import com.example.eshop.exception.EmailExists;
 import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.Role;
 import com.example.eshop.model.User;
@@ -52,9 +53,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void add(User user) {
-        userRepository.existsByEmail(user.getEmail())
-                .orElseThrow(IllegalStateException::new);
+    public void add(User user) throws EmailExists {
+        if ( userRepository.existsByEmail(user.getEmail()) ) {
+            throw new EmailExists("User with that email already exists");
+        }
 
         user.setActivationCode(UUID.randomUUID().toString());
         mailSender.send(user);
@@ -78,9 +80,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.save(foundedUser);
     }
 
-    public boolean isUserCode(User user, String code) {
+    public boolean isUserCode(User user, String code) throws ObjectNotFoundException {
         User foundedUser = userRepository.findByActivationCode(code)
-                .orElseThrow(IllegalAccessError::new);
+                .orElseThrow(ObjectNotFoundException::new);
         return Objects.equals(user.getEmail(), foundedUser.getEmail());
     }
 }
