@@ -26,7 +26,6 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
-@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -39,7 +38,7 @@ public class OrderController {
         return orderMapper.toDtos(orderService.getAll(pageable, userDetails.getUser()).toList()); /*TODO: realize returning Page*/
     }
 
-    @GetMapping("/my/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 

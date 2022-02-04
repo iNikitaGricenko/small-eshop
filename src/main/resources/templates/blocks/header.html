@@ -5,9 +5,9 @@
             <li><a href="/?size=15" th:text="#{products_all}"></a></li>
             <li>
                 <a sec:authorize="hasRole('USER')" href="/my/orders" th:text="#{my_orders}"></a>
-                <a sec:authorize="hasRole('ADMIN')" href="/admin/all/orders?size=15" th:text="#{orders_deleted_products}"></a>
+                <a sec:authorize="hasRole('ADMIN')" href="/admin/orders?size=15" th:text="#{orders_deleted_products}"></a>
             </li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/add/product" th:text="#{add_product}"></a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/product/add" th:text="#{add_product}"></a></li>
         </ul>
     </nav>
     <span class="cta"><a class="button" href="/logout" th:text="#{logout}"></a></span>

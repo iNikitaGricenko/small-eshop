@@ -21,7 +21,7 @@ public class AdminOrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/all")
+    @GetMapping
     public List<OrderDto> getAll(Pageable pageable) {
         return orderMapper.toDtos(orderService.getAll(pageable).toList()); /*TODO: realize returning Page*/
     }
