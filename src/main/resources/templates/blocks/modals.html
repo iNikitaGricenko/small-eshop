@@ -1,38 +1,38 @@
 <div th:fragment="orderCreator" class="orderCreator" id="orderCreator">
 	<i class="fas fa-times-circle close" onclick="openOrder()"></i>
-	<h2 class="heading">Info</h2>
+	<h2 class="heading" th:text="#{order_creator_headline}"></h2>
 	<div class="inputBox">
-		<span>Address</span>
+		<span th:text="#{address}"></span>
 		<input type="text" name="address" id="address" required="">
 	</div>
 	<div class="inputBox">
-		<span>count</span>
+		<span th:text="#{count}"></span>
 		<input type="number" value="1" min="1" step="1" name="count" id="count" required="">
 	</div>
 	<div class="inputBox">
-		<span>description</span>
+		<span th:text="#{description}"></span>
 		<textarea type="text" name="description" id="description" required=""></textarea>
 	</div>
 	<div class="inputBox">
-		<a class="link-btn" href="#" onclick="buy()">To Order</a>
+		<a class="link-btn" href="#" onclick="buy()" th:text="#{to_order}"></a>
 	</div>
 </div>
 <div th:fragment="orderEditor" class="orderEditor" id="orderEditor">
 	<i class="fas fa-times-circle close" onclick="openOrder()"></i>
-	<h2 class="heading">Edit info</h2>
+	<h2 class="heading" th:text="#{order_editor_headline}"></h2>
 	<div class="inputBox">
-		<span>Address</span>
+		<span th:text="#{address}"></span>
 		<input type="text" name="address" id="address" required="">
 	</div>
 	<div class="inputBox">
-		<span>count</span>
+		<span th:text="#{count}"></span>
 		<input type="number" min="1" step="1" name="count" id="count" required="">
 	</div>
 	<div class="inputBox">
-		<span>description</span>
+		<span th:text="#{description}"></span>
 		<textarea type="text" name="description" id="description" required=""></textarea>
 	</div>
 	<div class="inputBox">
-		<a class="link-btn" href="#" onclick="edit()">Edit</a>
+		<a class="link-btn" href="#" onclick="edit()" th:text="#{edit}"></a>
 	</div>
 </div>

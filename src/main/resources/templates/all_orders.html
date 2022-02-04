@@ -8,22 +8,23 @@
     <title>All orders</title>
 </head>
 <body>
+<th:block th:insert="/blocks/language :: choicer"></th:block>
 <th:block th:insert="/blocks/header :: header"></th:block>
 <div class="container" style="width: auto">
     <div class="details">
         <!-- recent orders details start -->
         <div class="recentOrders">
             <div class="cardHeader">
-                <h2>Recent Orders</h2>
+                <h2 th:text="#{recent_orders}"></h2>
             </div>
             <table>
                 <thead>
                 <tr>
-                    <td>Name</td>
-                    <td>Price</td>
-                    <td>User</td>
-                    <td>Address</td>
-                    <td>Status</td>
+                    <td th:text="#{name}"></td>
+                    <td th:text="#{price}"></td>
+                    <td th:text="#{user}"></td>
+                    <td th:text="#{address}"></td>
+                    <td th:text="#{status}"></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,15 +44,15 @@
         <!-- deleted orders details start -->
         <div class="recentOrders">
             <div class="cardHeader">
-                <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted orders</h2>
+                <h2 style="color: rgba(255, 69, 69, 0.96)" th:text="#{deleted_orders}"></h2>
             </div>
             <table>
                 <thead>
                 <tr>
-                    <td>User</td>
-                    <td>Address</td>
-                    <td>Count</td>
-                    <td>Status</td>
+                    <td th:text="#{user}"></td>
+                    <td th:text="#{address}"></td>
+                    <td th:text="#{count}"></td>
+                    <td th:text="#{status}"></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,15 +70,15 @@
         <div id="productList">
             <div class="recentOrders">
                 <div class="cardHeader">
-                    <h2 style="color: rgba(255, 69, 69, 0.96)">Deleted products</h2>
+                    <h2 style="color: rgba(255, 69, 69, 0.96)" th:text="#{deleted_products}"></h2>
                 </div>
                 <table>
                     <thead>
                     <tr>
-                        <td>Name</td>
-                        <td>Count</td>
-                        <td>Price</td>
-                        <td>Deleted at</td>
+                        <td th:text="#{name}"></td>
+                        <td th:text="#{count}"></td>
+                        <td th:text="#{price}"></td>
+                        <td th:text="#{deleted_at}"></td>
                     </tr>
                     </thead>
                     <tbody>

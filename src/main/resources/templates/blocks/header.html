@@ -2,13 +2,13 @@
     <h2 class="logo">BRAND NAME</h2>
     <nav class="nav__links">
         <ul>
-            <li><a href="/?size=15">Products</a></li>
+            <li><a href="/?size=15" th:text="#{products_all}"></a></li>
             <li>
-                <a sec:authorize="hasRole('USER')" href="/my-orders">My Orders</a>
-                <a sec:authorize="hasRole('ADMIN')" href="/admin/all-orders?size=15">Orders/Deleted Products</a>
+                <a sec:authorize="hasRole('USER')" href="/my-orders" th:text="#{my_orders}"></a>
+                <a sec:authorize="hasRole('ADMIN')" href="/admin/all-orders?size=15" th:text="#{orders_deleted_products}"></a>
             </li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/add-product">Add Product</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/add-product" th:text="#{add_product}"></a></li>
         </ul>
     </nav>
-    <span class="cta"><a class="button" href="/logout">Logout</a></span>
+    <span class="cta"><a class="button" href="/logout" th:text="#{logout}"></a></span>
 </header>

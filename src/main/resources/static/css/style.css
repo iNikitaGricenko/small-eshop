@@ -291,7 +291,6 @@ header {
     background: linear-gradient(275deg, #e91e63, #03a9f4);
     padding: 10px 20px;
     color: #fff;
-    margin: 5px 0;
     transition: 500ms;
 }
 .orders li:nth-child(1) {
@@ -320,15 +319,15 @@ header {
 }
 .orders li .description {
     width: 410px;
-    white-space: normal;
     text-align: center;
     white-space: pre-wrap;
 }
 .orders li .buttons {
-    width: 70px;
-    text-align: right;
+    width: fit-content;
+    min-width: 90px;
     cursor: pointer;
     text-align: center;
+    margin-inline: 5px;
 }
 .orders li .buttons:hover i {
     color: #2b2b2b;

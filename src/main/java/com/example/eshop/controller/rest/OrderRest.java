@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -21,45 +22,45 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderRest {
 
-    private final OrderService service;
+    private final OrderService orderService;
     private final CustomUserDetailsService userService;
     private final OrderMapper orderMapper;
 
     @GetMapping
     public List<OrderDto> getAll(Pageable pageable) {
-        return orderMapper.toDtos(service.getAll(pageable));
+        return orderMapper.toDtos(orderService.getAll(pageable));
     }
 
     @GetMapping("/{id}")
     public OrderDto getOne(@PathVariable("id") Long id) throws ObjectNotFoundException {
-        return orderMapper.toDto(service.getById(id));
+        return orderMapper.toDto(orderService.getById(id));
     }
 
     @GetMapping("/user/{id}")
     public List<OrderDto> getUserOrder(@PathVariable("id") Long id, Pageable pageable) throws ObjectNotFoundException {
         User user = userService.get(id);
-        return orderMapper.toDtos(service.getAll(pageable, user));
+        return orderMapper.toDtos(orderService.getAll(pageable, user));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto add(@RequestBody OrderDto dto) {
+    public OrderDto add(@Valid @RequestBody OrderDto dto) {
         Order order = orderMapper.toOrder(dto);
-        return orderMapper.toDto(service.save(order));
+        return orderMapper.toDto(orderService.save(order));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-        service.remove(id);
+        orderService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public OrderDto edit(@RequestBody OrderDto dto) throws ObjectNotFoundException {
+    public OrderDto edit(@Valid @RequestBody OrderDto dto) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
-        order = service.edit(order);
+        order = orderService.edit(order);
 
         return orderMapper.toDto(order);
     }

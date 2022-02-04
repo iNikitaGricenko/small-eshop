@@ -10,6 +10,9 @@ import java.io.Serializable;
 @Data
 public class UserDto implements Serializable {
     private final Long id;
-    @NotNull @Size(max = 345) @Email
+    @NotNull(message = "{msg_email_notnull}")
+    @Email(message = "{msg_email}")
+    @Size(max = 345,
+            message = "{msg_email_size}")
     private final String email;
 }

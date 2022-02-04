@@ -52,9 +52,9 @@
     }
 </script>
 <body>
+<th:block th:insert="/blocks/language :: choicer"></th:block>
 <th:block th:insert="/blocks/header :: header"></th:block>
 <div id="refresh">
-
     <div class="container flex" style="width: 100%">
         <div class="card" th:each="product : ${products}">
             <div class="imgBox">
@@ -62,15 +62,15 @@
                 <ul class="action">
                     <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))">
                         <i class="fas fa-cart-arrow-down"></i>
-                        <span>To Order</span>
+                        <span th:text="#{to_order}"></span>
                     </li>
                     <li>
                         <i class="fas fa-heart"></i>
-                        <span>Add to Wishlist</span>
+                        <span th:text="#{add_to_Wishlist}"></span>
                     </li>
                     <li sec:authorize="hasRole('ADMIN')" th:data-product="${product.id}" onclick="deleteProduct(this.getAttribute('data-product'))">
                         <i class="fas fa-trash"></i>
-                        <span>Delete</span>
+                        <span th:text="#{delete}"></span>
                     </li>
                 </ul>
             </div>
