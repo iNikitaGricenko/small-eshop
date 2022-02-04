@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final MailService mailSender;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @SneakyThrows
@@ -72,7 +74,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         foundedUser.setActivationCode(null);
         foundedUser.setRole(role);
         foundedUser.setActivated(true);
-        foundedUser.setPassword(user.getPassword());
+
+        String bcryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        foundedUser.setPassword(bcryptPassword);
 
         return userRepository.save(foundedUser);
     }
