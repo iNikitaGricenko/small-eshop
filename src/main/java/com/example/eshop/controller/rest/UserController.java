@@ -9,8 +9,8 @@ import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,18 +18,15 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.*;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserRest {
+public class UserController {
 
     private final CustomUserDetailsService userService;
     private final UserMapper userMapper;
-
-    @GetMapping
-    public List<UserDto> getAll(Pageable pageable) {
-        return userMapper.toDtos(userService.getAll(pageable));
-    }
 
     @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody UserCreatorDto dto) {
@@ -38,21 +35,16 @@ public class UserRest {
         return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
     }
 
-    @GetMapping("/activate")
-    public ModelAndView activatePage(@RequestParam("key") String code) throws ObjectNotFoundException {
-        ModelAndView modelAndView = new ModelAndView("activate");
-        User user = userService.findByActivationCode(code);
-
-        modelAndView.addObject("User", user);
-        return modelAndView;
-    }
-
     @PostMapping("/activate")
-    public ResponseEntity<?> activate(@Valid @RequestBody UserVerificationDto dto) {
+    public ResponseEntity<?> activate(@Valid @RequestBody UserVerificationDto dto, @RequestParam("key") String code) throws ObjectNotFoundException {
         User user = userMapper.toUser(dto);
-        userService.activate(user);
+        User foundedUser = userService.findByActivationCode(code);
 
-        return ResponseEntity.ok(Map.of("redirect",  "/login"));
+        if (foundedUser.getEmail().equals(user.getEmail())) {
+            userService.activate(user);
+            return ResponseEntity.ok(Map.of("redirect",  "/login"));
+        }
+        return ResponseEntity.status(FORBIDDEN).build();
     }
 
 }

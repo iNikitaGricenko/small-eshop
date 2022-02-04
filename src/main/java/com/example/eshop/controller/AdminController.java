@@ -17,7 +17,7 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
 
-    @GetMapping("/all-orders")
+    @GetMapping("/all/orders")
     public String getAllOrdersPage(Model model, Pageable pageable) {
         model.addAttribute("orders", orderService.getAll(pageable));
         model.addAttribute("deletedOrders", orderService.getDeleted(pageable));
@@ -25,7 +25,7 @@ public class AdminController {
         return "all_orders";
     }
 
-    @GetMapping("/add-product")
+    @GetMapping("/add/product")
     public String getProductCreatorPage() {
         return "add_product";
     }
