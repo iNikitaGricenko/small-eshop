@@ -2,7 +2,7 @@ package com.example.eshop.service;
 
 import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.CustomUserDetail;
+import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.Role;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
@@ -24,14 +24,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final MailService mailSender;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
-        CustomUserDetail userDetail = new CustomUserDetail();
+        CustomUserDetails userDetail = new CustomUserDetails();
         userDetail.setUser(user);
         return userDetail;
     }
@@ -75,6 +74,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         foundedUser.setRole(role);
         foundedUser.setActivated(true);
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String bcryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
         foundedUser.setPassword(bcryptPassword);
 

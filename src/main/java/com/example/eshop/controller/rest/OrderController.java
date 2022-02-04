@@ -3,6 +3,7 @@ package com.example.eshop.controller.rest;
 import com.example.eshop.dto.OrderDto;
 import com.example.eshop.dto.mapper.OrderMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.Order;
 import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
@@ -34,15 +35,15 @@ public class OrderController {
 
     @GetMapping("/user")
     public List<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
-        User user = (User) authentication.getPrincipal();
-        return orderMapper.toDtos(orderService.getAll(pageable, user).toList()); /*TODO: realize returning Page*/
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return orderMapper.toDtos(orderService.getAll(pageable, userDetails.getUser()).toList()); /*TODO: realize returning Page*/
     }
 
     @GetMapping("/my/{id}")
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (!orderService.existUser(user)) {
+        if (!orderService.existUser(userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
         }
         Order order = orderService.getById(id);
@@ -61,9 +62,9 @@ public class OrderController {
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)
     public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (!orderService.existUser(user)) {
+        if (!orderService.existUser(userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
         }
         orderService.remove(id);
@@ -74,9 +75,9 @@ public class OrderController {
     @PatchMapping
     @ResponseStatus(OK)
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (!orderService.existUser(user)) {
+        if (!orderService.existUser(userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
         }
         Order order = orderMapper.toOrder(dto);
