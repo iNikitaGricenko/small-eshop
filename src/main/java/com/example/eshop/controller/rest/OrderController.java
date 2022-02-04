@@ -12,11 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestController
@@ -32,59 +35,53 @@ public class OrderController {
     @GetMapping("/user")
     public List<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
         User user = (User) authentication.getPrincipal();
-        return orderMapper.toDtos(orderService.getAll(pageable, user));
+        return orderMapper.toDtos(orderService.getAll(pageable, user).toList()); /*TODO: realize returning Page*/
     }
 
     @GetMapping("/my/{id}")
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        Order order = orderService.getById(id);
         User user = (User) authentication.getPrincipal();
-        User orderUser = order.getUser();
 
-        if (isUserOder(orderUser, user)) {
-            OrderDto orderDto = orderMapper.toDto(order);
-            return ResponseEntity.ok().body(orderDto);
+        if (!orderService.existUser(user)) {
+            throw new AccessDeniedException("Access denied");
         }
+        Order order = orderService.getById(id);
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        OrderDto orderDto = orderMapper.toDto(order);
+        return ResponseEntity.ok().body(orderDto);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public OrderDto add(@Valid @RequestBody OrderDto dto) {
         Order order = orderMapper.toOrder(dto);
         return orderMapper.toDto(orderService.save(order));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         User user = (User) authentication.getPrincipal();
-        User orderUser = orderService.getById(id).getUser();
 
-        HttpStatus status = HttpStatus.FORBIDDEN;
-        if (isUserOder(orderUser, user)) {
-            orderService.remove(id);
-            status = HttpStatus.OK;
+        if (!orderService.existUser(user)) {
+            throw new AccessDeniedException("Access denied");
         }
+        orderService.remove(id);
 
-        return new ResponseEntity<>(status);
+        return new ResponseEntity<>(OK);
     }
 
     @PatchMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
-        Order order = orderMapper.toOrder(dto);
         User user = (User) authentication.getPrincipal();
-        User orderUser = order.getUser();
 
-        if (isUserOder(orderUser, user)) {
-            order = orderService.edit(order);
+        if (!orderService.existUser(user)) {
+            throw new AccessDeniedException("Access denied");
         }
-        return orderMapper.toDto(order);
-    }
+        Order order = orderMapper.toOrder(dto);
+        order = orderService.edit(order);
 
-    private boolean isUserOder(User orderUser, User user) {
-        return orderUser.equals(user);
+        return orderMapper.toDto(order);
     }
 }

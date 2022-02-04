@@ -23,7 +23,7 @@ public class AdminOrderController {
 
     @GetMapping("/all")
     public List<OrderDto> getAll(Pageable pageable) {
-        return orderMapper.toDtos(orderService.getAll(pageable));
+        return orderMapper.toDtos(orderService.getAll(pageable).toList()); /*TODO: realize returning Page*/
     }
 
     @GetMapping("/{id}")
