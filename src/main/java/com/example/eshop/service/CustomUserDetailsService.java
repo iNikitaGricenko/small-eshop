@@ -1,10 +1,10 @@
 package com.example.eshop.service;
 
-import com.example.eshop.exception.EmailExists;
+import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.model.CustomUserDetail;
 import com.example.eshop.model.Role;
 import com.example.eshop.model.User;
-import com.example.eshop.repository.RoleRepository;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -14,16 +14,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
-import static java.util.stream.Collectors.*;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final MailService mailSender;
 
     @Override
@@ -31,7 +29,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
-        return user;
+        CustomUserDetail userDetail = new CustomUserDetail();
+        userDetail.setUser(user);
+        return userDetail;
     }
 
     public User get(String login) throws ObjectNotFoundException {
@@ -53,9 +53,9 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void add(User user) throws EmailExists {
-        if ( userRepository.existsByEmail(user.getEmail()) ) {
-            throw new EmailExists("User with that email already exists");
+    public void add(User user) throws EmailExistsException {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailExistsException("User with that email already exists");
         }
 
         user.setActivationCode(UUID.randomUUID().toString());
@@ -65,15 +65,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public User activate(User user) throws ObjectNotFoundException {
-        Set<Role> role = roleRepository.findById(2L)
-                .stream()
-                .collect(toSet());
-
         User foundedUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(ObjectNotFoundException::new);
+        Role role = Role.USER;
 
         foundedUser.setActivationCode(null);
-        foundedUser.setRoles(role);
+        foundedUser.setRole(role);
         foundedUser.setActivated(true);
         foundedUser.setPassword(user.getPassword());
 
