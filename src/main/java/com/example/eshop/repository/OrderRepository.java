@@ -30,5 +30,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             nativeQuery = true )
     Optional<Boolean> checkIdOrThrow(Long id);
 
-    boolean existsOrderByUserEquals(User user);
+    boolean existsOrderByIdAndUserEquals(Long id, User user);
 }

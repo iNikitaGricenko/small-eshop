@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.*;
+import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -38,11 +39,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<Object> handleNoSuchObjectFound(
-            ObjectNotFoundException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
+            ObjectNotFoundException exception, WebRequest request) {
         String bodyMessage = exception.getMessage() + "\ncheck for the current of input data";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return handleExceptionInternal(exception, bodyMessage, httpHeaders, HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(exception, bodyMessage, httpHeaders, NOT_FOUND, request);
     }
 
 

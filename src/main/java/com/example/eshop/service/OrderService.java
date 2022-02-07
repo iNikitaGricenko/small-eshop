@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -45,8 +43,8 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public boolean existUser(User user) {
-        return orderRepository.existsOrderByUserEquals(user);
+    public boolean isUserOrder(Long id, User user) {
+        return orderRepository.existsOrderByIdAndUserEquals(id, user);
     }
 
     public void remove(Long id) { orderRepository.deleteById(id); }

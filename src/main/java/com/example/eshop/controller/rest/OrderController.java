@@ -12,14 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -45,8 +43,9 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
 
-        if (!orderService.existUser(userDetails.getUser())) {
+        if (!orderService.isUserOrder(id, user)) {
             throw new AccessDeniedException("Access denied");
         }
         Order order = orderService.getById(id);
@@ -67,7 +66,7 @@ public class OrderController {
     public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (!orderService.existUser(userDetails.getUser())) {
+        if (!orderService.isUserOrder(id, userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
         }
         orderService.remove(id);
@@ -80,7 +79,8 @@ public class OrderController {
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (!orderService.existUser(userDetails.getUser())) {
+        Long id = dto.getId();
+        if (!orderService.isUserOrder(id, userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");
         }
         Order order = orderMapper.toOrder(dto);

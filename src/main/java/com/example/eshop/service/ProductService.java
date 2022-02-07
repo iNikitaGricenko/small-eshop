@@ -48,8 +48,8 @@ public class ProductService {
     }
 
     public void backToSale(Long id) throws ObjectNotFoundException{
-        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
+        productRepository.existById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         productRepository.returnToSale(id);
     }
-
 }
