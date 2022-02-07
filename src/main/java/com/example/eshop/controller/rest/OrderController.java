@@ -10,6 +10,7 @@ import com.example.eshop.service.CustomUserDetailsService;
 import com.example.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,11 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping("/user")
-    public List<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
+    public Page<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return orderMapper.toDtos(orderService.getAll(pageable, userDetails.getUser()).toList()); /*TODO: realize returning Page*/
+        User user = userDetails.getUser();
+        return orderService.getAll(pageable, user)
+                .map(orderMapper::toDto);
     }
 
     @GetMapping("/{id}")
@@ -69,15 +72,13 @@ public class OrderController {
         }
         orderService.remove(id);
 
-        return new ResponseEntity<>(OK);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping
     @ResponseStatus(OK)
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-        System.out.println(userDetails.getUser().getId());
 
         if (!orderService.existUser(userDetails.getUser())) {
             throw new AccessDeniedException("Access denied");

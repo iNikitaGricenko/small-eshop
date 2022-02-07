@@ -21,7 +21,8 @@ public class AdminUserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public List<UserDto> getAll(Pageable pageable) {
-        return userMapper.toDtos(userService.getAll(pageable).toList()); /*TODO: realize returning Page*/
+    public Page<UserDto> getAll(Pageable pageable) {
+        return userService.getAll(pageable)
+                .map(userMapper::toDto);
     }
 }
