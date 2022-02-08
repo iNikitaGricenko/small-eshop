@@ -27,12 +27,6 @@ public class ProductService {
                 .findAll(pageable);
     }
 
-    public Page<Product> getAll(Pageable pageable, List<String> ids) {
-        List<ObjectId> objectIds = ids.stream().map(ObjectId::new).collect(Collectors.toList());
-        return productRepository
-                .findAllById(pageable, objectIds);
-    }
-
     public Product get(String id) {
         return productRepository
                 .findById(id)
