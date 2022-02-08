@@ -5,6 +5,7 @@ import com.example.eshop.dto.mapper.OrderMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,10 @@ public class AdminOrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/all")
-    public List<OrderDto> getAll(Pageable pageable) {
-        return orderMapper.toDtos(orderService.getAll(pageable));
+    @GetMapping
+    public Page<OrderDto> getAll(Pageable pageable) {
+        return orderService.getAll(pageable)
+                .map(orderMapper::toDto);
     }
 
     @GetMapping("/{id}")

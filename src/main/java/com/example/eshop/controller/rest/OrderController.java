@@ -3,20 +3,23 @@ package com.example.eshop.controller.rest;
 import com.example.eshop.dto.OrderDto;
 import com.example.eshop.dto.mapper.OrderMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.Order;
 import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import com.example.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestController
@@ -30,61 +33,59 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping("/user")
-    public List<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
-        User user = (User) authentication.getPrincipal();
-        return orderMapper.toDtos(orderService.getAll(pageable, user));
+    public Page<OrderDto> getUserOrder(Authentication authentication, Pageable pageable) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        return orderService.getAll(pageable, user)
+                .map(orderMapper::toDto);
     }
 
-    @GetMapping("/my/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        Order order = orderService.getById(id);
-        User user = (User) authentication.getPrincipal();
-        User orderUser = order.getUser();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
 
-        if (isUserOder(orderUser, user)) {
-            OrderDto orderDto = orderMapper.toDto(order);
-            return ResponseEntity.ok().body(orderDto);
+        if (!orderService.isUserOrder(id, user)) {
+            throw new AccessDeniedException("Access denied");
         }
+        Order order = orderService.getById(id);
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        OrderDto orderDto = orderMapper.toDto(order);
+        return ResponseEntity.ok().body(orderDto);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public OrderDto add(@Valid @RequestBody OrderDto dto) {
         Order order = orderMapper.toOrder(dto);
         return orderMapper.toDto(orderService.save(order));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        User user = (User) authentication.getPrincipal();
-        User orderUser = orderService.getById(id).getUser();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        HttpStatus status = HttpStatus.FORBIDDEN;
-        if (isUserOder(orderUser, user)) {
-            orderService.remove(id);
-            status = HttpStatus.OK;
+        if (!orderService.isUserOrder(id, userDetails.getUser())) {
+            throw new AccessDeniedException("Access denied");
         }
+        orderService.remove(id);
 
-        return new ResponseEntity<>(status);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
-        Order order = orderMapper.toOrder(dto);
-        User user = (User) authentication.getPrincipal();
-        User orderUser = order.getUser();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (isUserOder(orderUser, user)) {
-            order = orderService.edit(order);
+        Long id = dto.getId();
+        if (!orderService.isUserOrder(id, userDetails.getUser())) {
+            throw new AccessDeniedException("Access denied");
         }
-        return orderMapper.toDto(order);
-    }
+        Order order = orderMapper.toOrder(dto);
+        order = orderService.edit(order);
 
-    private boolean isUserOder(User orderUser, User user) {
-        return orderUser.equals(user);
+        return orderMapper.toDto(order);
     }
 }

@@ -27,7 +27,7 @@
                     <input type="number" min="1" step="1" name="price" id="price" required>
                 </div>
                 <div class="inputBox">
-                    <input type="button" th:value="#{add}" onclick="addProduct()" required>
+                    <input type="submit" th:value="#{add}" onclick="addProduct()" required>
                 </div>
             </div>
         </div>
@@ -47,8 +47,9 @@
             contentType: 'application/json',
             dataType: 'json',
             data: jsonData,
-            success: function () {
+            success: function (data) {
                 alert("SUCCESSFULLY")
+                window.location.href = data.redirect;
             }
         })
     }

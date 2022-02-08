@@ -1,42 +1,43 @@
 package com.example.eshop.service;
 
+import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.Role;
 import com.example.eshop.model.User;
-import com.example.eshop.repository.RoleRepository;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.UUID;
-
-import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final MailService mailSender;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = null;
-        if ((user = userRepository.findByEmail(login)) == null) {
-            throw new UsernameNotFoundException("User not exist with email : " + login);
-        }
-        return user;
+    @SneakyThrows
+    public UserDetails loadUserByUsername(String login) {
+        User user = userRepository.findByEmail(login)
+                .orElseThrow(ObjectNotFoundException::new);
+        CustomUserDetails userDetail = new CustomUserDetails();
+        userDetail.setUser(user);
+        return userDetail;
     }
 
-    public User get(String login) {
-        return userRepository.findByEmail(login);
+    public User get(String login) throws ObjectNotFoundException {
+        return userRepository.findByEmail(login)
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     public User get(Long id) throws ObjectNotFoundException {
@@ -44,9 +45,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public List<User> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .toList();
+    public Page<User> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public User findByActivationCode(String code) throws ObjectNotFoundException {
@@ -54,26 +54,36 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void add(User user) {
+    public void add(User user) throws EmailExistsException {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalStateException("User with such email already exists");
+            throw new EmailExistsException("User with that email already exists");
         }
+
         user.setActivationCode(UUID.randomUUID().toString());
         mailSender.send(user);
+
         userRepository.save(user);
     }
 
-    public User activate(User user) {
-        Set<Role> role = roleRepository.findById(2L)
-                .stream()
-                .collect(toSet());
-
-        User foundedUser = userRepository.findByEmail(user.getEmail());
+    public User activate(User user) throws ObjectNotFoundException {
+        User foundedUser = userRepository.findByEmail(user.getEmail())
+                .orElseThrow(ObjectNotFoundException::new);
+        Role role = Role.USER;
 
         foundedUser.setActivationCode(null);
-        foundedUser.setRoles(role);
+        foundedUser.setRole(role);
         foundedUser.setActivated(true);
-        foundedUser.setPassword(user.getPassword());
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String bcryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        foundedUser.setPassword(bcryptPassword);
+
         return userRepository.save(foundedUser);
+    }
+
+    public boolean isUserCode(User user, String code) throws ObjectNotFoundException {
+        User foundedUser = userRepository.findByActivationCode(code)
+                .orElseThrow(ObjectNotFoundException::new);
+        return Objects.equals(user.getEmail(), foundedUser.getEmail());
     }
 }

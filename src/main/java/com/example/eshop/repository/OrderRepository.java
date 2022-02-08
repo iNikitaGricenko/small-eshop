@@ -1,6 +1,7 @@
 package com.example.eshop.repository;
 
 import com.example.eshop.model.Order;
+import com.example.eshop.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?",
             nativeQuery = true )
     Optional<Boolean> checkIdOrThrow(Long id);
+
+    boolean existsOrderByIdAndUserEquals(Long id, User user);
 }

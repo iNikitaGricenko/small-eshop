@@ -1,6 +1,7 @@
 package com.example.eshop.controller;
 
 import com.example.eshop.exception.ObjectNotFoundException;
+import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
@@ -29,7 +30,8 @@ public class MainController {
         if (authentication == null) {
             return new User();
         }
-        return (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getUser();
     }
 
     @GetMapping
@@ -40,12 +42,12 @@ public class MainController {
 
     @GetMapping("/my/orders")
     public String getOrderPage(Model model, Authentication authentication, Pageable pageable) {
-        User user = (User) authentication.getPrincipal();
-        model.addAttribute("orders", orderService.getAll(pageable, user));
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        model.addAttribute("orders", orderService.getAll(pageable, userDetails.getUser()));
         return "my_orders";
     }
 
-    @GetMapping("/activate")
+    @GetMapping("/user/activate")
     public String activatePage(Model model, @RequestParam("key") String code) throws ObjectNotFoundException {
         User user = userService.findByActivationCode(code);
         model.addAttribute("email", user.getEmail());

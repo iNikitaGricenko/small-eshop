@@ -4,6 +4,7 @@ import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.Product;
 import com.example.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,14 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getAll(Pageable pageable) {
+    public Page<Product> getAll(Pageable pageable) {
         return productRepository
-                .findAll(pageable)
-                .toList();
+                .findAll(pageable);
     }
 
-    public List<Product> getDeleted(Pageable pageable) {
+    public Page<Product> getDeleted(Pageable pageable) {
         return productRepository
-                .findAllDeleted(pageable)
-                .toList();
+                .findAllDeleted(pageable);
     }
 
     public Product get(Long id) throws ObjectNotFoundException {
@@ -43,13 +42,14 @@ public class ProductService {
 
     public Product edit(Product product) throws ObjectNotFoundException {
         Long id = product.getId();
-        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
+        productRepository.existById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         return productRepository.save(product);
     }
 
     public void backToSale(Long id) throws ObjectNotFoundException{
-        productRepository.existById(id).orElseThrow(ObjectNotFoundException::new);
+        productRepository.existById(id)
+                .orElseThrow(ObjectNotFoundException::new);
         productRepository.returnToSale(id);
     }
-
 }
