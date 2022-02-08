@@ -30,7 +30,7 @@
                 <tbody>
                 <tr th:each="order : ${orders}">
                     <th:block th:each="product : ${order.products}">
-                        <td th:text="${product.name} +' (count '+ ${order.count}+')'">Star Refrigerator</td>
+                        <td th:text="${product.title} +' (count '+ ${order.count}+')'">Star Refrigerator</td>
                         <td th:text="'$'+${order.count} * ${product.price}">$1200</td>
                         <td th:text="${order.user.email}">User</td>
                         <td th:text="${order.address}">User</td>
@@ -66,46 +66,7 @@
             </table>
         </div>
         <!-- deleted orders details list end -->
-        <!-- deleted orders details start -->
-        <div id="productList">
-            <div class="recentOrders">
-                <div class="cardHeader">
-                    <h2 style="color: rgba(255, 69, 69, 0.96)" th:text="#{deleted_products}"></h2>
-                </div>
-                <table>
-                    <thead>
-                    <tr>
-                        <td th:text="#{name}"></td>
-                        <td th:text="#{count}"></td>
-                        <td th:text="#{price}"></td>
-                        <td th:text="#{deleted_at}"></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="product : ${deletedProducts}">
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.count}"></td>
-                        <td th:text="'$'+${product.price}"></td>
-                        <td th:data-id="${product.id}" onclick="backToSale(this.getAttribute('data-id'))"><span class="status DELETED" th:text="${product.deletedAt}"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- deleted orders details list end -->
     </div>
 </div>
-<script>
-    function backToSale(id) {
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/admin/product/return/'+id,
-            success: function (data) {
-                console.log("SUCCESSFULLY");
-                $('#productList').load("/admin/orders #productList");
-            }
-        })
-    }
-</script>
 </body>
 </html>

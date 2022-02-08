@@ -55,12 +55,12 @@
 <th:block th:insert="/blocks/language :: choicer"></th:block>
 <th:block th:insert="/blocks/header :: header"></th:block>
 <div id="refresh">
-    <div class="container flex" style="width: 100%">
+    <div class="container flex" style="width: 100%; justify-content: center">
         <div class="card" th:each="product : ${products}">
             <div class="imgBox">
                 <img src="">
                 <ul class="action">
-                    <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this.getAttribute('data-product'), this.getAttribute('data-count'))">
+                    <li th:data-product="${product.id}" onclick="createOrder(this.getAttribute('data-product'))">
                         <i class="fas fa-cart-arrow-down"></i>
                         <span th:text="#{to_order}"></span>
                     </li>
@@ -76,7 +76,7 @@
             </div>
             <div class="content">
                 <div class="productName">
-                    <h3 class="product-title" th:text="${product.name}"></h3>
+                    <h3 class="product-title" th:text="${product.title}"></h3>
                 </div>
                 <div class="priceBox">
                     <h2 class="price" th:text="'$'+${product.price}"></h2>
@@ -97,11 +97,9 @@
     function rare(element) {
         $(element).toggleClass('grey');
     }
-    function createOrder(id, count) {
+    function createOrder(id) {
         console.log(id)
-        console.log(count)
         $("#orderCreator").attr('data-product-id', id);
-        $("#count").attr('max', count);
         openOrder();
     }
     function openOrder() {

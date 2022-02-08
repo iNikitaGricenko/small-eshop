@@ -16,11 +16,11 @@
                 <h2 class="form-title" th:text="#{add_product_information}"></h2>
                 <div class="inputBox">
                     <span th:text="#{name}">Name</span>
-                    <input type="text" name="name" id="name" required>
+                    <input type="text" name="name" id="title" required>
                 </div>
                 <div class="inputBox">
                     <span th:text="#{count_in_stock}"></span>
-                    <input type="number" min="0" step="1" name="count" id="count" required>
+                    <input type="number" min="0" step="1" name="count" id="available" required>
                 </div>
                 <div class="inputBox">
                     <span th:text="#{price}"></span>
@@ -36,8 +36,8 @@
 <script>
     function addProduct() {
         let jsonData = {
-            'name': $('#name').val(),
-            'count': $('#count').val(),
+            'name': $('#title').val(),
+            'count': $('#available').val(),
             'price': $('#price').val()
         }
         jsonData = JSON.stringify(jsonData);

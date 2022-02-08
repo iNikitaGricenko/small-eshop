@@ -25,7 +25,7 @@
         </li>
         <li th:each="order : ${orders}">
             <th:block th:each="product : ${order.products}">
-                <span class="name" th:text="${product.name}"></span>
+                <span class="name" th:text="${product.title}"></span>
                 <span class="price" th:text="'$' + ${order.count} * ${product.price}"></span>
                 <span class="price" th:text="${order.count}"></span>
                 <span class="address" th:text="${order.address}"></span>

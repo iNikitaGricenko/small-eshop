@@ -25,31 +25,21 @@ public class ProductService {
                 .findAll(pageable);
     }
 
-    public Page<Product> getDeleted(Pageable pageable) {
-        return productRepository
-                .findAllDeleted(pageable);
-    }
-
-    public Product get(Long id) throws ObjectNotFoundException {
+    public Product get(String id) throws ObjectNotFoundException {
         return productRepository
                 .findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void remove(Long id) {
+    public void remove(String id) {
         productRepository.deleteById(id);
     }
 
     public Product edit(Product product) throws ObjectNotFoundException {
-        Long id = product.getId();
-        productRepository.existById(id)
-                .orElseThrow(ObjectNotFoundException::new);
+        String id = product.getId();
+        if (productRepository.existsById(id)) {
+                throw new ObjectNotFoundException();
+        }
         return productRepository.save(product);
-    }
-
-    public void backToSale(Long id) throws ObjectNotFoundException{
-        productRepository.existById(id)
-                .orElseThrow(ObjectNotFoundException::new);
-        productRepository.returnToSale(id);
     }
 }

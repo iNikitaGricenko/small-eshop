@@ -2,7 +2,7 @@
     <h2 class="logo">BRAND NAME</h2>
     <nav class="nav__links">
         <ul>
-            <li><a href="/?size=15" th:text="#{products_all}"></a></li>
+            <li><a href="/?size=25" th:text="#{products_all}"></a></li>
             <li>
                 <a sec:authorize="hasRole('USER')" href="/my/orders" th:text="#{my_orders}"></a>
                 <a sec:authorize="hasRole('ADMIN')" href="/admin/orders?size=15" th:text="#{orders_deleted_products}"></a>
