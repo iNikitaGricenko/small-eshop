@@ -8,6 +8,7 @@ import com.example.eshop.model.Order;
 import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import com.example.eshop.service.OrderService;
+import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ import static org.springframework.http.HttpStatus.*;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ProductService productService;
     private final CustomUserDetailsService userService;
     private final OrderMapper orderMapper;
 
@@ -56,7 +58,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public OrderDto add(@Valid @RequestBody OrderDto dto) {
+    public OrderDto add(@Valid @RequestBody OrderDto dto) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
         return orderMapper.toDto(orderService.save(order));
     }

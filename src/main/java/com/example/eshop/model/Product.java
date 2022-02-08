@@ -1,15 +1,20 @@
 package com.example.eshop.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 @Document("products")
-@Getter @Setter
+@Data
 public class Product {
 
-    @MongoId
+    @Id
     private String id;
     private String title;
     private String category;

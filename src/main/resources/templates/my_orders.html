@@ -32,7 +32,7 @@
                 <span class="date" th:text="${order.created}"></span>
                 <span class="description" th:text="${order.description}"></span>
                 <span class="description" th:text="${order.status}"></span>
-                <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-count="${product.count}" th:data-status="${order.status}"
+                <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-status="${order.status}"
                       onclick="editOrder(this)"><i class="fas fa-edit"></i></span>
                 <span class="buttons" th:data-id="${order.id}" onclick="deleteOrder(this.getAttribute('data-id'))"><i class="fas fa-trash"></i></span>
             </th:block>
@@ -43,7 +43,6 @@
 <script>
     function loadModal(data) {
         $("#address").val(data.address);
-        $("#count").val(data.count);
         $("#description").val(data.description);
     }
     function editOrder(element) {
@@ -54,7 +53,6 @@
         $("#orderEditor").attr('data-order-id', element.getAttribute('data-order'));
         $("#orderEditor").attr('data-product-id', element.getAttribute('data-product'));
         $("#orderEditor").attr('data-status', element.getAttribute('data-status'));
-        $("#count").attr('max', element.getAttribute('data-count'));
 
         openOrder();
     }

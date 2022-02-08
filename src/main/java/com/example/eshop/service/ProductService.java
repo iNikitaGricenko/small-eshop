@@ -4,11 +4,13 @@ import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.Product;
 import com.example.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +27,16 @@ public class ProductService {
                 .findAll(pageable);
     }
 
-    public Product get(String id) throws ObjectNotFoundException {
+    public Page<Product> getAll(Pageable pageable, List<String> ids) {
+        List<ObjectId> objectIds = ids.stream().map(ObjectId::new).collect(Collectors.toList());
+        return productRepository
+                .findAllById(pageable, objectIds);
+    }
+
+    public Product get(String id) {
         return productRepository
                 .findById(id)
-                .orElseThrow(ObjectNotFoundException::new);
+                .get();
     }
 
     public void remove(String id) {

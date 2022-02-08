@@ -6,10 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
@@ -49,17 +46,9 @@ public class Order {
     @Column(name = "deleted_at", insertable = false)
     private Date deletedAt;
 
-    /*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_orders",
-            joinColumns = {@JoinColumn(
-                    name = "orders_id",
-                    referencedColumnName = "orders_id"
-            )},
-            inverseJoinColumns = {@JoinColumn(
-                    name="product_id",
-                    referencedColumnName = "product_id"
-            )})*/
-    @Transient
-    private Set<Product> products = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "user_orders")
+    @Column(name = "product_id")
+    private Set<Product> products;
 
 }
