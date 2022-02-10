@@ -47,13 +47,13 @@
     }
     function editOrder(element) {
         $.get("/order/"+element.getAttribute('data-order'), function(data) {
+            $("#count").val(element.getAttribute('data-count'));
             loadModal(data);
         });
 
         $("#orderEditor").attr('data-order-id', element.getAttribute('data-order'));
         $("#orderEditor").attr('data-product-id', element.getAttribute('data-product'));
         $("#orderEditor").attr('data-status', element.getAttribute('data-status'));
-        $("#orderCreator #count").attr('max', element.getAttribute('data-count'));
 
         openOrder();
     }
@@ -85,7 +85,7 @@
         var productId = $("#orderEditor").attr("data-product-id");
         var address = $("#address").val();
         var description = $("#description").val();
-        var count = $("#count").val();
+        var count = $("#orderEditor #count").val();
         var status = $("#orderEditor").attr("data-status");
 
         let body = {

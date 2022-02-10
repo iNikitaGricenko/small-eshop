@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Map;
 
@@ -46,12 +48,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(exception, bodyMessage, httpHeaders, NOT_FOUND, request);
     }
 
-
     @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<Object> handleEmailExists(
             EmailExistsException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String bodyMessage = exception.getMessage();
         return handleExceptionInternal(exception, bodyMessage, headers, status, request);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Object> handleViolationAccess(ValidationException exception, WebRequest request) {
+        String bodyMessage = exception.getMessage();
+        HttpHeaders headers = new HttpHeaders();
+        return handleExceptionInternal(exception, bodyMessage, headers, FORBIDDEN, request);
     }
 
 }

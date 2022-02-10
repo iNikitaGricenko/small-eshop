@@ -297,7 +297,6 @@ header {
     position: relative;
     background: linear-gradient(215deg, #e91e63, #03a9f4);
     box-shadow: 0 2px 18px rgba(0,0,0,0.2);
-    z-index: 1111;
 }
 .orders li:nth-child(1):hover {
     pointer-events: none;
