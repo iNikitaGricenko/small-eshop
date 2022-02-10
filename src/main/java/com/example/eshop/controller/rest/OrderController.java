@@ -6,7 +6,6 @@ import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.Order;
 import com.example.eshop.model.User;
-import com.example.eshop.service.CustomUserDetailsService;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.validator.UserOrdersConstraint;
 import lombok.RequiredArgsConstructor;
@@ -14,25 +13,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
-@Slf4j
 @Validated
 public class OrderController {
 
     private final OrderService orderService;
-    private final CustomUserDetailsService userService;
     private final OrderMapper orderMapper;
 
     @GetMapping("/user")
@@ -45,7 +42,8 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @UserOrdersConstraint
-    public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
+    public ResponseEntity<OrderDto> getUserOne(
+            @PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         Order order = orderService.getById(id);
         OrderDto orderDto = orderMapper.toDto(order);
         return ResponseEntity.ok().body(orderDto);
@@ -61,7 +59,8 @@ public class OrderController {
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)
     @UserOrdersConstraint
-    public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
+    public ResponseEntity<Object> delete(
+            @PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
         orderService.remove(id);
         return ResponseEntity.ok().build();
     }
@@ -69,7 +68,8 @@ public class OrderController {
     @PatchMapping
     @ResponseStatus(OK)
     @UserOrdersConstraint
-    public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
+    public OrderDto edit(
+            @Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
         Order order = orderMapper.toOrder(dto);
         order = orderService.edit(order);
         return orderMapper.toDto(order);

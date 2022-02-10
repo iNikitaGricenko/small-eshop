@@ -13,7 +13,6 @@ import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
-@Slf4j
 public class UserOrdersValidator implements ConstraintValidator<UserOrdersConstraint, Object[]> {
 
     @Autowired
@@ -52,7 +51,6 @@ public class UserOrdersValidator implements ConstraintValidator<UserOrdersConstr
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         boolean equals = orderRepository.existsOrderByIdAndUserEquals(id, userDetails.getUser());
-        System.out.println(equals+" is user order");
         return equals;
     }
 }
