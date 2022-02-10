@@ -43,11 +43,10 @@ public class OrderController {
                 .map(orderMapper::toDto);
     }
 
-    @GetMapping("/{id}") @UserOrdersConstraint
+    @GetMapping("/{id}")
+    @UserOrdersConstraint
     public ResponseEntity<OrderDto> getUserOne(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-
         Order order = orderService.getById(id);
-
         OrderDto orderDto = orderMapper.toDto(order);
         return ResponseEntity.ok().body(orderDto);
     }
@@ -63,10 +62,7 @@ public class OrderController {
     @ResponseStatus(OK)
     @UserOrdersConstraint
     public ResponseEntity<Object> delete(@PathVariable("id") Long id, Authentication authentication) throws ObjectNotFoundException {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
         orderService.remove(id);
-
         return ResponseEntity.ok().build();
     }
 
@@ -74,11 +70,8 @@ public class OrderController {
     @ResponseStatus(OK)
     @UserOrdersConstraint
     public OrderDto edit(@Valid @RequestBody OrderDto dto, Authentication authentication) throws ObjectNotFoundException {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
         Order order = orderMapper.toOrder(dto);
         order = orderService.edit(order);
-
         return orderMapper.toDto(order);
     }
 }
