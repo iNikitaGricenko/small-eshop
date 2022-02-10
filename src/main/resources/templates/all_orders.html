@@ -30,8 +30,8 @@
                 <tbody>
                 <tr th:each="order : ${orders}">
                     <th:block th:each="product : ${order.products}">
-                        <td th:text="${product.title} +' (count '+ ${order.count}+')'">Star Refrigerator</td>
-                        <td th:text="'$'+${order.count} * ${product.price}">$1200</td>
+                        <td th:text="${product.title} +' (count '+ ${product.count}+')'">Star Refrigerator</td>
+                        <td th:text="'$'+${product.count} * ${product.price}">$1200</td>
                         <td th:text="${order.user.email}">User</td>
                         <td th:text="${order.address}">User</td>
                         <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
@@ -59,7 +59,6 @@
                 <tr th:each="order : ${deletedOrders}">
                     <td th:text="${order.user.email}"></td>
                     <td th:text="${order.address}"></td>
-                    <td th:text="${order.count}"></td>
                     <td><span th:text="${order.status}" th:classappend="${order.status}" class="status "></span></td>
                 </tr>
                 </tbody>

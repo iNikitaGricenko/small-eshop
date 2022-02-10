@@ -1,11 +1,8 @@
 package com.example.eshop.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.persistence.Embeddable;
 
@@ -20,25 +17,10 @@ public class Product {
     private String category;
     private String productCategory;
     private String articleNumber;
-    private String price;
+    private float price;
     private int vatRate;
+    private int count;
     private String available;
     private String description;
     private String color;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", productCategory='" + productCategory + '\'' +
-                ", articleNumber='" + articleNumber + '\'' +
-                ", price='" + price + '\'' +
-                ", vatRate=" + vatRate +
-                ", available='" + available + '\'' +
-                ", description='" + description + '\'' +
-                ", color='" + color + '\'' +
-                '}';
-    }
 }

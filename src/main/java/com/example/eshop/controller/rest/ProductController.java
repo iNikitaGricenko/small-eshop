@@ -22,7 +22,7 @@ public class ProductController {
 
     @GetMapping
     public Page<ProductDto> getAll(Pageable pageable) {
-        return productService.getAll(pageable)
+        return productService.getAllById(pageable)
                 .map(productMapper::toDto);
     }
 

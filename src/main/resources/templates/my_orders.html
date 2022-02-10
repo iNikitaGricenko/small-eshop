@@ -26,14 +26,14 @@
         <li th:each="order : ${orders}">
             <th:block th:each="product : ${order.products}">
                 <span class="name" th:text="${product.title}"></span>
-                <span class="price" th:text="'$' + ${order.count} * ${product.price}"></span>
-                <span class="price" th:text="${order.count}"></span>
+                <span class="price" th:text="'$' + ${product.count} * ${product.price}"></span>
+                <span class="price" th:text="${product.count}"></span>
                 <span class="address" th:text="${order.address}"></span>
                 <span class="date" th:text="${order.created}"></span>
                 <span class="description" th:text="${order.description}"></span>
                 <span class="description" th:text="${order.status}"></span>
                 <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-status="${order.status}"
-                      onclick="editOrder(this)"><i class="fas fa-edit"></i></span>
+                      th:data-count="${product.count}" onclick="editOrder(this)"><i class="fas fa-edit"></i></span>
                 <span class="buttons" th:data-id="${order.id}" onclick="deleteOrder(this.getAttribute('data-id'))"><i class="fas fa-trash"></i></span>
             </th:block>
         </li>
@@ -53,6 +53,7 @@
         $("#orderEditor").attr('data-order-id', element.getAttribute('data-order'));
         $("#orderEditor").attr('data-product-id', element.getAttribute('data-product'));
         $("#orderEditor").attr('data-status', element.getAttribute('data-status'));
+        $("#orderCreator #count").attr('max', element.getAttribute('data-count'));
 
         openOrder();
     }
@@ -86,15 +87,13 @@
         var description = $("#description").val();
         var count = $("#count").val();
         var status = $("#orderEditor").attr("data-status");
-        var date = new Date();
 
         let body = {
             "id":orderId,
             "address":address,
             "description":description,
-            "count":count,
             "status":status,
-            "date":date,
+            "count":count,
             "user":{
                 "id":userId,
                 "email":email

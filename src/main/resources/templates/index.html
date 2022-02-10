@@ -22,15 +22,16 @@
             "id":0,
             "address":address,
             "description":description,
-            "count":count,
             "status":'INPROGRESS',
+            "count":count,
             "date":0,
             "user":{
                 "id":userId,
                 "login":login
             },
             "products":[
-                {"id": productId}]
+                {"id": productId}
+            ]
         };
         body = JSON.stringify(body);
 
@@ -59,7 +60,7 @@
             <div class="imgBox">
                 <img src="">
                 <ul class="action">
-                    <li th:data-product="${product.id}" onclick="createOrder(this.getAttribute('data-product'))">
+                    <li th:data-product="${product.id}" th:data-count="${product.count}" onclick="createOrder(this)">
                         <i class="fas fa-cart-arrow-down"></i>
                         <span th:text="#{to_order}"></span>
                     </li>
@@ -96,9 +97,10 @@
     function rare(element) {
         $(element).toggleClass('grey');
     }
-    function createOrder(id) {
-        console.log(id)
-        $("#orderCreator").attr('data-product-id', id);
+    function createOrder(element) {
+        console.log(element.getAttribute('data-product'))
+        $("#orderCreator").attr('data-product-id', element.getAttribute('data-product'));
+        $("#orderCreator #count").attr('max', element.getAttribute('data-count'));
         openOrder();
     }
     function openOrder() {

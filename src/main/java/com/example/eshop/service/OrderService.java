@@ -10,11 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,13 @@ public class OrderService {
 
     public Order save(Order order) {
         Set<Product> products = getOrderProducts(order);
+
+        order.getProducts().stream()
+                .peek(product -> product.setCount(order.getCount()))
+                .collect(toList());
+
         order.setProducts(products);
+
         return orderRepository.save(order);
     }
 
@@ -43,17 +50,23 @@ public class OrderService {
     }
 
     public Order getById(Long id) throws ObjectNotFoundException {
-        Order order = orderRepository.findById(id)
+        return orderRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
-        List<String> products = List.copyOf(order.getProducts()).stream().map(Product::getId).collect(toList());
-        productService.getAll(null, products);
-        return order;
     }
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
         orderRepository.checkIdOrThrow(id)
                 .orElseThrow(ObjectNotFoundException::new);
+
+        long time = Calendar.getInstance().getTime().getTime();
+        Date dateNow = new Date(time);
+
+        Set<Product> products = getOrderProducts(order);
+
+        order.setCreated(dateNow);
+        order.setProducts(products);
+
         return orderRepository.save(order);
     }
 
@@ -61,7 +74,9 @@ public class OrderService {
         return orderRepository.existsOrderByIdAndUserEquals(id, user);
     }
 
-    public void remove(Long id) { orderRepository.deleteById(id); }
+    public void remove(Long id) {
+        orderRepository.deleteById(id);
+    }
 
     private Set<Product> getOrderProducts(Order order) {
         List<String> productIds = order.getProducts()
@@ -69,8 +84,12 @@ public class OrderService {
                 .map(Product::getId)
                 .collect(toList());
 
-        return productIds.stream()
-                .map(productService::get)
-                .collect(toSet());
+        return convertIterable(productService.getAllById(productIds));
     }
+
+    private Set<Product> convertIterable(Iterable<Product> products) {
+        List<Product> listProducts = (List<Product>) products;
+        return Set.copyOf(listProducts);
+    }
+
 }
