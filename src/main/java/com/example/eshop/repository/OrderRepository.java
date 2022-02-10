@@ -28,7 +28,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value = "SELECT orders_id FROM orders e WHERE e.orders_id = ?",
             nativeQuery = true )
-    Optional<Boolean> checkIdOrThrow(Long id);
+    Optional<Boolean> lookForId(Long id);
 
     boolean existsOrderByIdAndUserEquals(Long id, User user);
 }

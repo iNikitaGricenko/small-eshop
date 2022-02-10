@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +26,10 @@ public class OrderService {
     private final ProductService productService;
 
     public Order save(Order order) {
-        Set<Product> products = getOrderProducts(order);
-
-        order.getProducts().stream()
+        Set<Product> products = getOrderProducts(order)
+                .stream()
                 .peek(product -> product.setCount(order.getCount()))
-                .collect(toList());
+                .collect(toSet());
 
         order.setProducts(products);
 
@@ -56,13 +56,17 @@ public class OrderService {
 
     public Order edit(Order order) throws ObjectNotFoundException {
         Long id = order.getId();
-        orderRepository.checkIdOrThrow(id)
+
+        orderRepository.lookForId(id)
                 .orElseThrow(ObjectNotFoundException::new);
 
         long time = Calendar.getInstance().getTime().getTime();
         Date dateNow = new Date(time);
 
-        Set<Product> products = getOrderProducts(order);
+        Set<Product> products = getOrderProducts(order)
+                .stream()
+                .peek(product -> product.setCount(order.getCount()))
+                .collect(toSet());
 
         order.setCreated(dateNow);
         order.setProducts(products);
