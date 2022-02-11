@@ -5,15 +5,15 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
 @SQLDelete(sql = "UPDATE orders e SET deleted=true, deleted_at=now() WHERE e.orders_id=?")
 @Getter @Setter
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Order {
     @Column(name = "description", length = 1024)
     private String description;
 
-    @Column(name = "count")
+    @Transient
     private int count;
 
     @Column(name = "created", insertable = false)
@@ -47,16 +47,11 @@ public class Order {
     @Column(name = "deleted_at", insertable = false)
     private Date deletedAt;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_orders",
-            joinColumns = {@JoinColumn(
-                    name = "orders_id",
-                    referencedColumnName = "orders_id"
-            )},
-            inverseJoinColumns = {@JoinColumn(
-                    name="product_id",
-                    referencedColumnName = "product_id"
-            )})
-    private List<Product> products = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "user_orders", joinColumns = {
+            @JoinColumn(name = "order_id", referencedColumnName = "orders_id")})
+    @AttributeOverrides({
+            @AttributeOverride(name = "id", column = @Column(name = "product_id"))})
+    private Set<Product> products;
 
 }

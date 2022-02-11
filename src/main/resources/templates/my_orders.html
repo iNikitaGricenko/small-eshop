@@ -25,15 +25,15 @@
         </li>
         <li th:each="order : ${orders}">
             <th:block th:each="product : ${order.products}">
-                <span class="name" th:text="${product.name}"></span>
-                <span class="price" th:text="'$' + ${order.count} * ${product.price}"></span>
-                <span class="price" th:text="${order.count}"></span>
+                <span class="name" th:text="${product.title}"></span>
+                <span class="price" th:text="'$' + ${product.count} * ${product.price}"></span>
+                <span class="price" th:text="${product.count}"></span>
                 <span class="address" th:text="${order.address}"></span>
                 <span class="date" th:text="${order.created}"></span>
                 <span class="description" th:text="${order.description}"></span>
                 <span class="description" th:text="${order.status}"></span>
-                <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-count="${product.count}" th:data-status="${order.status}"
-                      onclick="editOrder(this)"><i class="fas fa-edit"></i></span>
+                <span class="buttons" th:data-order="${order.id}" th:data-product="${product.id}" th:data-status="${order.status}"
+                      th:data-count="${product.count}" onclick="editOrder(this)"><i class="fas fa-edit"></i></span>
                 <span class="buttons" th:data-id="${order.id}" onclick="deleteOrder(this.getAttribute('data-id'))"><i class="fas fa-trash"></i></span>
             </th:block>
         </li>
@@ -43,18 +43,17 @@
 <script>
     function loadModal(data) {
         $("#address").val(data.address);
-        $("#count").val(data.count);
         $("#description").val(data.description);
     }
     function editOrder(element) {
         $.get("/order/"+element.getAttribute('data-order'), function(data) {
+            $("#count").val(element.getAttribute('data-count'));
             loadModal(data);
         });
 
         $("#orderEditor").attr('data-order-id', element.getAttribute('data-order'));
         $("#orderEditor").attr('data-product-id', element.getAttribute('data-product'));
         $("#orderEditor").attr('data-status', element.getAttribute('data-status'));
-        $("#count").attr('max', element.getAttribute('data-count'));
 
         openOrder();
     }
@@ -86,17 +85,15 @@
         var productId = $("#orderEditor").attr("data-product-id");
         var address = $("#address").val();
         var description = $("#description").val();
-        var count = $("#count").val();
+        var count = $("#orderEditor #count").val();
         var status = $("#orderEditor").attr("data-status");
-        var date = new Date();
 
         let body = {
             "id":orderId,
             "address":address,
             "description":description,
-            "count":count,
             "status":status,
-            "date":date,
+            "count":count,
             "user":{
                 "id":userId,
                 "email":email

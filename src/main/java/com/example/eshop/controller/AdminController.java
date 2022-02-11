@@ -21,7 +21,6 @@ public class AdminController {
     public String getAllOrdersPage(Model model, Pageable pageable) {
         model.addAttribute("orders", orderService.getAll(pageable));
         model.addAttribute("deletedOrders", orderService.getDeleted(pageable));
-        model.addAttribute("deletedProducts", productService.getDeleted(pageable));
         return "all_orders";
     }
 

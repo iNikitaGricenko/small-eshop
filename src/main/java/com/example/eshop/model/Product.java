@@ -1,32 +1,26 @@
 package com.example.eshop.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.sql.Date;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "products")
-@SQLDelete(sql = "UPDATE products e SET deleted = TRUE, deleted_at = now() WHERE e.product_id=?")
-@Getter @Setter
+@Embeddable
+@Document("products")
+@Data
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Long id;
-    @Column(name = "name", nullable = false)
-    private String name;
-    @Column(name = "price")
-    private int price;
-    @Column(name = "count")
+    private String id;
+    private String title;
+    private String category;
+    private String productCategory;
+    private String articleNumber;
+    private float price;
+    private int vatRate;
     private int count;
-
-    @Column(name = "deleted")
-    private boolean isDeleted = Boolean.FALSE;
-    @Column(name = "deleted_at", insertable = false)
-    private Date deletedAt;
-
+    private String available;
+    private String description;
+    private String color;
 }

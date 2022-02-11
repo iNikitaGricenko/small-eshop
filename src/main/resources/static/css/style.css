@@ -294,7 +294,12 @@ header {
     transition: 500ms;
 }
 .orders li:nth-child(1) {
+    position: relative;
     background: linear-gradient(215deg, #e91e63, #03a9f4);
+    box-shadow: 0 2px 18px rgba(0,0,0,0.2);
+}
+.orders li:nth-child(1):hover {
+    pointer-events: none;
 }
 .orders li .id {
     width: 30px;
@@ -342,7 +347,7 @@ header {
 /* modals */
 #orderCreator,
 #orderEditor {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -300%);

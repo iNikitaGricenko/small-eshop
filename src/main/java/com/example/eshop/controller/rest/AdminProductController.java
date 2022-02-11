@@ -7,7 +7,6 @@ import com.example.eshop.model.Product;
 import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ public class AdminProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
+    public void delete(@PathVariable("id") String id) throws ObjectNotFoundException {
         productService.remove(id);
     }
 
@@ -38,13 +37,6 @@ public class AdminProductController {
     public ProductDto add(@Valid @RequestBody ProductDto dto) {
         Product product = productMapper.toProduct(dto);
         return productMapper.toDto(productService.save(product));
-    }
-
-    @PostMapping("/return/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> backToSale(@PathVariable Long id) throws ObjectNotFoundException {
-        productService.backToSale(id);
-        return ResponseEntity.ok().build();
     }
 
 }
