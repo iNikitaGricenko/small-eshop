@@ -2,12 +2,13 @@ package com.example.eshop.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-//@Configuration
+@Configuration
 public class MailConfig {
     @Value("${spring.mail.host}")
     private String host;
@@ -21,12 +22,6 @@ public class MailConfig {
     @Value("${spring.mail.password}")
     private String password;
 
-    @Value("${spring.mail.protocol}")
-    private String protocol;
-
-    @Value("${spring.mail.debug}")
-    private String debug;
-
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
@@ -35,11 +30,8 @@ public class MailConfig {
         javaMailSender.setPort(port);
         javaMailSender.setUsername(username);
         javaMailSender.setPassword(password);
-        javaMailSender.setProtocol(protocol);
 
         Properties properties = javaMailSender.getJavaMailProperties();
-        properties.setProperty("mail.transport.protocol", protocol);
-        properties.setProperty("mail.debug", debug);
 
         return javaMailSender;
     }

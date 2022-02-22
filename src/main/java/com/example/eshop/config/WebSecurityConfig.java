@@ -1,5 +1,7 @@
 package com.example.eshop.config;
 
+import com.example.eshop.AuthFailureHandler;
+import com.example.eshop.AuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userService;
+    private final AuthSuccessHandler successHandler;
+    private final AuthFailureHandler failureHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,6 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .loginPage("/login")
                         .failureUrl("/login?error")
                         .defaultSuccessUrl("/?size=25")
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler)
                 .and()
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

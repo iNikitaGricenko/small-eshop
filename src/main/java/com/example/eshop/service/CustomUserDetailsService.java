@@ -45,6 +45,18 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
+    public void setLoggedIn(Long id) {
+        userRepository.setLoggedIn(id);
+    }
+
+    public boolean lock(Long id) {
+        return userRepository.lock(id);
+    }
+
+    public boolean unlock(Long id) {
+        return userRepository.unlock(id);
+    }
+
     public Page<User> getAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
