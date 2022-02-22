@@ -1,8 +1,9 @@
-package com.example.eshop;
+package com.example.eshop.component;
 
 import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
+import com.example.eshop.service.LoginAttemptsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,7 @@ import java.io.IOException;
 @Slf4j
 public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final CustomUserDetailsService userService;
+    private final LoginAttemptsService loginAttemptsService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -30,7 +31,9 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
 
-        userService.setLoggedIn(user.getId());
+        Long id = user.getId();
+        loginAttemptsService.setLoggedIn(id);
+        loginAttemptsService.refreshAttempts(id);
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

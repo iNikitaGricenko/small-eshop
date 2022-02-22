@@ -13,10 +13,11 @@
     <div class="contentBox">
         <div class="formBox">
             <div th:unless="${param.error} == null">
-                <h2 class="form-title" style="color: red; font-size: 1.3em;" th:text="#{login_def_error}">
+                <!--<h2 class="form-title" style="color: red; font-size: 1.3em;" th:text="#{login_def_error}">
                     Error
-                    <br>
-                    [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+                </h2>-->
+                <h2 class="form-title" style="color: white; background: red; border-bottom: none; font-size: 1.7em;">
+                    <p th:inline="text">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
                 </h2>
                 <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:if="${param.error[0]} == 'activation'" th:inline="text">
                     [[#{activate_account}]] <br th:text="#{activate_account_sent_message}">

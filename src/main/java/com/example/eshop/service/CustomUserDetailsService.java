@@ -30,6 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
+        if (!user.isNonLocked()) {
+
+        }
         CustomUserDetails userDetail = new CustomUserDetails();
         userDetail.setUser(user);
         return userDetail;
@@ -43,18 +46,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public User get(Long id) throws ObjectNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
-    }
-
-    public void setLoggedIn(Long id) {
-        userRepository.setLoggedIn(id);
-    }
-
-    public boolean lock(Long id) {
-        return userRepository.lock(id);
-    }
-
-    public boolean unlock(Long id) {
-        return userRepository.unlock(id);
     }
 
     public Page<User> getAll(Pageable pageable) {
@@ -72,7 +63,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         user.setActivationCode(UUID.randomUUID().toString());
-        mailSender.send(user);
+        mailSender.sendVerification(user);
 
         userRepository.save(user);
     }
