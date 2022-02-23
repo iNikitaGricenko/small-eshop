@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LoginAttemptsService {
+public class UserAuthenticationService {
 
     private final UserRepository userRepository;
     private final MailService mailSender;

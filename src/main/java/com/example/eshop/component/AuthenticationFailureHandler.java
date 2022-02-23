@@ -2,7 +2,7 @@ package com.example.eshop.component;
 
 import com.example.eshop.model.User;
 import com.example.eshop.service.CustomUserDetailsService;
-import com.example.eshop.service.LoginAttemptsService;
+import com.example.eshop.service.UserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler  {
 
     private final CustomUserDetailsService userService;
-    private final LoginAttemptsService loginAttemptsService;
+    private final UserAuthenticationService userAuthenticationService;
 
     @SneakyThrows
     @Override
@@ -36,10 +36,10 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
         if (user.isActivated() && user.isNonLocked()) {
             if (user.getLoginAttempts() <= 0) {
-                loginAttemptsService.lock(email);
+                userAuthenticationService.lock(email);
                 exception = new LockedException("This account was locked because of brute try of log in");
             }
-            loginAttemptsService.decreesAttempt(email);
+            userAuthenticationService.decreesAttempt(email);
         }
 
         super.setDefaultFailureUrl("/login?error");

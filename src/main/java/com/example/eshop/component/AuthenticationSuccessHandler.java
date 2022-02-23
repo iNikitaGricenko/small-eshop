@@ -2,7 +2,7 @@ package com.example.eshop.component;
 
 import com.example.eshop.model.CustomUserDetails;
 import com.example.eshop.model.User;
-import com.example.eshop.service.LoginAttemptsService;
+import com.example.eshop.service.UserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @Slf4j
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final LoginAttemptsService loginAttemptsService;
+    private final UserAuthenticationService userAuthenticationService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -31,9 +31,9 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         User user = userDetails.getUser();
 
         Long id = user.getId();
-        loginAttemptsService.setLoggedIn(id);
+        userAuthenticationService.setLoggedIn(id);
         if (user.getLoginAttempts() < 10) {
-            loginAttemptsService.refreshAttempts(id);
+            userAuthenticationService.refreshAttempts(id);
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
