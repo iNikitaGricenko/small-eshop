@@ -18,16 +18,22 @@ public class LoginAttemptsService {
     }
 
     public void lock(Long id) throws ObjectNotFoundException {
-        userRepository.lock(id);
         User user = userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
+
+        user.setNonLocked(false);
+        userRepository.save(user);
+
         mailSender.sendUnlockUrl(user);
     }
 
     public void lock(String email) throws ObjectNotFoundException {
-        userRepository.lock(email);
         User user = userRepository.findByEmail(email)
                 .orElseThrow(ObjectNotFoundException::new);
+
+        user.setNonLocked(false);
+        userRepository.save(user);
+
         mailSender.sendUnlockUrl(user);
     }
 

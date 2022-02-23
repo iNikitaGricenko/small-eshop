@@ -21,16 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void setLoggedIn(Long id);
 
     @Modifying @Transactional
-    @Query(value = "UPDATE User e SET non_locked = false WHERE e.id = ?1")
-    void lock(Long id);
-
-    @Modifying @Transactional
     @Query(value = "UPDATE User e SET non_locked = true WHERE e.id = ?1")
     void unlock(Long id);
-
-    @Modifying @Transactional
-    @Query(value = "UPDATE User e SET non_locked = false WHERE e.email = ?1")
-    void lock(String login);
 
     @Modifying @Transactional
     @Query(value = "UPDATE User e SET non_locked = true WHERE e.email = ?1")

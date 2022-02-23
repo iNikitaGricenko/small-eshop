@@ -30,9 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
-        if (!user.isNonLocked()) {
-
-        }
         CustomUserDetails userDetail = new CustomUserDetails();
         userDetail.setUser(user);
         return userDetail;
