@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler  {
+public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler  {
 
     private final CustomUserDetailsService userService;
     private final LoginAttemptsService loginAttemptsService;

@@ -43,6 +43,6 @@ public class User {
 
     @Column(name = "non_locked")
     private boolean isNonLocked = Boolean.TRUE;
-    @Column(name = "login_attempts", length = 10)
+    @Column(name = "login_attempts")
     private short loginAttempts;
 }

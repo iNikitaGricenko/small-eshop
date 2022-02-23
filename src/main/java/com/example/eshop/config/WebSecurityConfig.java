@@ -1,7 +1,7 @@
 package com.example.eshop.config;
 
-import com.example.eshop.component.AuthFailureHandler;
-import com.example.eshop.component.AuthSuccessHandler;
+import com.example.eshop.component.AuthenticationFailureHandler;
+import com.example.eshop.component.AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +19,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userService;
-    private final AuthSuccessHandler successHandler;
-    private final AuthFailureHandler failureHandler;
+    private final AuthenticationSuccessHandler successHandler;
+    private final AuthenticationFailureHandler failureHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
