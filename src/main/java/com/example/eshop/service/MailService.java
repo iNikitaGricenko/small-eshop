@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
@@ -22,32 +23,29 @@ public class MailService {
     @SneakyThrows
     @Async
     public void sendVerification(User user) {
-        Context context = new Context();
-        context.setVariable("User", user);
-
-        String proccess = templateEngine.process("mail/verification_mail", context);
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper =  new MimeMessageHelper(mimeMessage, "UTF-8");
-        helper.setFrom("hello@eshop.com");
-        helper.setTo(user.getEmail());
-        helper.setSubject("Activation code");
-        helper.setText(proccess, true);
-
-        mailSender.send(mimeMessage);
+        String template = "mail/verification_mail";
+        String subject = "Activation code";
+        sendMail(user, template, subject);
     }
 
     @SneakyThrows
     @Async
     public void sendUnlockUrl(User user) {
+        String template = "mail/unlock_mail";
+        String subject = "Account locked";
+        sendMail(user, template, subject);
+    }
+
+    private void sendMail(User user, String template, String subject) throws MessagingException {
         Context context = new Context();
         context.setVariable("User", user);
 
-        String proccess = templateEngine.process("mail/verification_mail", context);
+        String proccess = templateEngine.process(template, context);
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper =  new MimeMessageHelper(mimeMessage, "UTF-8");
         helper.setFrom("hello@eshop.com");
         helper.setTo(user.getEmail());
-        helper.setSubject("Activation code");
+        helper.setSubject(subject);
         helper.setText(proccess, true);
 
         mailSender.send(mimeMessage);

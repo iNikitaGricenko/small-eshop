@@ -11,17 +11,24 @@ import org.springframework.stereotype.Service;
 public class LoginAttemptsService {
 
     private final UserRepository userRepository;
+    private final MailService mailSender;
 
     public void setLoggedIn(Long id) {
         userRepository.setLoggedIn(id);
     }
 
-    public void lock(Long id) {
+    public void lock(Long id) throws ObjectNotFoundException {
         userRepository.lock(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
+        mailSender.sendUnlockUrl(user);
     }
 
-    public void lock(String email) {
+    public void lock(String email) throws ObjectNotFoundException {
         userRepository.lock(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(ObjectNotFoundException::new);
+        mailSender.sendUnlockUrl(user);
     }
 
     public void unlock(Long id) {
