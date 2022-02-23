@@ -5,9 +5,11 @@ import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserAuthenticationService {
 
     private final UserRepository userRepository;
@@ -24,7 +26,7 @@ public class UserAuthenticationService {
         user.setNonLocked(false);
         userRepository.save(user);
 
-        mailSender.sendUnlockUrl(user);
+        mailSender.sendLockInfo(user);
     }
 
     public void lock(String email) throws ObjectNotFoundException {
@@ -34,7 +36,7 @@ public class UserAuthenticationService {
         user.setNonLocked(false);
         userRepository.save(user);
 
-        mailSender.sendUnlockUrl(user);
+        mailSender.sendLockInfo(user);
     }
 
     public void unlock(Long id) {
