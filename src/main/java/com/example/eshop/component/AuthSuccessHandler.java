@@ -33,7 +33,9 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         Long id = user.getId();
         loginAttemptsService.setLoggedIn(id);
-        loginAttemptsService.refreshAttempts(id);
+        if (user.getLoginAttempts() < 10) {
+            loginAttemptsService.refreshAttempts(id);
+        }
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
