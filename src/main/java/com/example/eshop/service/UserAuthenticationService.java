@@ -4,6 +4,7 @@ import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +58,9 @@ public class UserAuthenticationService {
                 .getLoginAttempts();
     }
 
-    public void decreesAttempt(String email) throws ObjectNotFoundException {
-        User user = userRepository.findByEmail(email)
+    @CachePut("user")
+    public void decreesAttempt(Long id) throws ObjectNotFoundException {
+        User user = userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
         short loginAttempts = (short) (user.getLoginAttempts() - 1);
         user.setLoginAttempts(loginAttempts);

@@ -30,7 +30,7 @@ public class MailService {
 
     @SneakyThrows
     @Async
-    public void sendUnlockUrl(User user) {
+    public void sendLockInfo(User user) {
         String template = "mail/unlock_mail";
         String subject = "Account locked";
         sendMail(user, template, subject);

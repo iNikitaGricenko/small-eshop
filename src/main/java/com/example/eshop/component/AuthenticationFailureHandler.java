@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler  {
+public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private final CustomUserDetailsService userService;
     private final UserAuthenticationService userAuthenticationService;
@@ -39,7 +40,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
                 userAuthenticationService.lock(email);
                 exception = new LockedException("This account was locked because of brute try of log in");
             }
-            userAuthenticationService.decreesAttempt(email);
+            userAuthenticationService.decreesAttempt(user.getId());
         }
 
         super.setDefaultFailureUrl("/login?error");
