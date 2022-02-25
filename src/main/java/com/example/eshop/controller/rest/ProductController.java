@@ -21,14 +21,12 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @Cacheable(cacheNames = "product")
     @GetMapping
     public Page<ProductDto> getAll(Pageable pageable) {
         return productService.getAll(pageable)
                 .map(productMapper::toDto);
     }
 
-    @Cacheable(cacheNames = "product", key = "#id")
     @GetMapping("/{id}")
     public ProductDto getOne(@PathVariable("id") String id) throws ObjectNotFoundException {
         return productMapper.toDto(productService.get(id));
