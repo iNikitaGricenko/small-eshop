@@ -13,10 +13,20 @@
     <div class="contentBox">
         <div class="formBox">
             <div th:unless="${param.error} == null">
+
+                <h2 class="form-title" style="color: white; background: red; border-bottom: none; font-size: 1.7em;">
+                    <p th:inline="text">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                </h2>
+                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:if="${param.error[0]} == 'activation'" th:inline="text">
+                    [[#{activate_account}]] <br th:text="#{activate_account_sent_message}">
+                    <blockquote style="color: #935151; font-size: 0.8em;" th:text="#{activate_account_contains_activation}+','"></blockquote>
+                    [[#{activate_account_to_email}]]</h2>
+            </div>
+            <div th:unless="${param.activation} == null">
                 <h2 class="form-title" style="color: red; font-size: 1.3em;" th:text="#{login_def_error}">
                     Error
                 </h2>
-                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:if="${param.error[0]} == 'activation'" th:inline="text">
+                <h2 class="form-title" style="color: red; font-size: 1.3em; width: 100%;" th:inline="text">
                     [[#{activate_account}]] <br th:text="#{activate_account_sent_message}">
                     <blockquote style="color: #935151; font-size: 0.8em;" th:text="#{activate_account_contains_activation}+','"></blockquote>
                     [[#{activate_account_to_email}]]</h2>

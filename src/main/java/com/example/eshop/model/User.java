@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +34,15 @@ public class User {
     private boolean isActivated = Boolean.FALSE;
     @Column(name = "activation_code")
     private String activationCode;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "last_log_in")
+    private Date lastLogIn;
+
+    @Column(name = "non_locked")
+    private boolean isNonLocked = Boolean.TRUE;
+    @Column(name = "login_attempts")
+    private short loginAttempts;
 }

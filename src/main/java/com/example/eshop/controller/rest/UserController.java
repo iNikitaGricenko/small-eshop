@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<?> add(@Valid @RequestBody UserCreatorDto dto) throws EmailExistsException {
         User user = userMapper.toUser(dto);
         userService.add(user);
-        return ResponseEntity.ok(Map.of("redirect",  "/login?error=activation"));
+        return ResponseEntity.ok(Map.of("redirect",  "/login?activation"));
     }
 
     @PostMapping("/activate")

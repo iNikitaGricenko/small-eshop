@@ -8,6 +8,7 @@ import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @SneakyThrows
+    @Cacheable("userDetails")
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
@@ -35,16 +37,19 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userDetail;
     }
 
+    @Cacheable("user")
     public User get(String login) throws ObjectNotFoundException {
         return userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
+    @Cacheable("user")
     public User get(Long id) throws ObjectNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
+    @Cacheable("user")
     public Page<User> getAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
@@ -60,7 +65,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         user.setActivationCode(UUID.randomUUID().toString());
-        mailSender.send(user);
+        mailSender.sendVerification(user);
 
         userRepository.save(user);
     }
