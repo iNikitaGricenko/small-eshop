@@ -5,6 +5,7 @@ import com.example.eshop.model.Product;
 import com.example.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> getAllById(Pageable pageable) {
+    public Page<Product> getAll(Pageable pageable) {
         return productRepository
                 .findAll(pageable);
     }

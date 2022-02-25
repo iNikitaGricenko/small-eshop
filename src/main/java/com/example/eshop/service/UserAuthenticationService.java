@@ -58,7 +58,6 @@ public class UserAuthenticationService {
                 .getLoginAttempts();
     }
 
-    @CachePut("user")
     public void decreesAttempt(Long id) throws ObjectNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);

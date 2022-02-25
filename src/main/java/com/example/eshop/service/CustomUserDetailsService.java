@@ -28,7 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @SneakyThrows
-    @Cacheable("userDetails")
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
@@ -37,19 +36,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userDetail;
     }
 
-    @Cacheable("user")
     public User get(String login) throws ObjectNotFoundException {
         return userRepository.findByEmail(login)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    @Cacheable("user")
     public User get(Long id) throws ObjectNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(ObjectNotFoundException::new);
     }
 
-    @Cacheable("user")
     public Page<User> getAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

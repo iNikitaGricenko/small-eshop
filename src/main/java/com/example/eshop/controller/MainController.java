@@ -36,7 +36,7 @@ public class MainController {
 
     @GetMapping
     public String getHomePage(Model model, Pageable pageable) {
-        model.addAttribute("products", productService.getAllById(pageable));
+        model.addAttribute("products", productService.getAll(pageable));
         return "index";
     }
 
