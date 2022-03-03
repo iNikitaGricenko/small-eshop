@@ -1,13 +1,12 @@
-package com.example.eshop.component;
+package com.example.eshop.handler;
 
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import com.example.eshop.service.UserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

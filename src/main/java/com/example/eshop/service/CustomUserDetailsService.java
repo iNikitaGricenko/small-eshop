@@ -2,13 +2,12 @@ package com.example.eshop.service;
 
 import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.CustomUserDetails;
-import com.example.eshop.model.Role;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.CustomUserDetails;
+import com.example.eshop.model.user.Role;
+import com.example.eshop.model.user.User;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;

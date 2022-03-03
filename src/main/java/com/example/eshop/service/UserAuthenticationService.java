@@ -1,10 +1,9 @@
 package com.example.eshop.service;
 
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.User;
 import com.example.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

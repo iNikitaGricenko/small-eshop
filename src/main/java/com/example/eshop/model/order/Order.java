@@ -1,5 +1,7 @@
-package com.example.eshop.model;
+package com.example.eshop.model.order;
 
+import com.example.eshop.model.product.Product;
+import com.example.eshop.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -11,7 +13,9 @@ import java.util.*;
 
 @Entity
 @Table(name = "orders")
-@SQLDelete(sql = "UPDATE orders e SET deleted=true, deleted_at=now() WHERE e.orders_id=?")
+@SQLDelete(sql = "UPDATE orders e " +
+        "SET deleted=true, deleted_at=now() " +
+        "WHERE e.orders_id=?")
 @Getter @Setter
 public class Order implements Serializable {
 
@@ -54,4 +58,22 @@ public class Order implements Serializable {
             @AttributeOverride(name = "id", column = @Column(name = "product_id"))})
     private Set<Product> products;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Order order = (Order) o;
+        return address.equals(order.address) &&
+                user.equals(order.user) &&
+                products.equals(order.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, user, products);
+    }
 }

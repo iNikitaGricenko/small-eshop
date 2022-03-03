@@ -1,10 +1,11 @@
-package com.example.eshop.model;
+package com.example.eshop.model.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -45,4 +46,21 @@ public class User {
     private boolean isNonLocked = Boolean.TRUE;
     @Column(name = "login_attempts")
     private short loginAttempts;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
 }

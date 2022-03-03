@@ -1,7 +1,7 @@
 package com.example.eshop.service;
 
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.Product;
+import com.example.eshop.model.product.Product;
 import com.example.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

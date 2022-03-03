@@ -1,7 +1,7 @@
 package com.example.eshop.dto.mapper;
 
 import com.example.eshop.dto.OrderDto;
-import com.example.eshop.model.Order;
+import com.example.eshop.model.order.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

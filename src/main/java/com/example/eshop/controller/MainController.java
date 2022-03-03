@@ -1,8 +1,8 @@
 package com.example.eshop.controller;
 
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.CustomUserDetails;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.CustomUserDetails;
+import com.example.eshop.model.user.User;
 import com.example.eshop.service.OrderService;
 import com.example.eshop.service.ProductService;
 import com.example.eshop.service.CustomUserDetailsService;

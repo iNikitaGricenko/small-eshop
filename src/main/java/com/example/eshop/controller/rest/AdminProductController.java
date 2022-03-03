@@ -3,12 +3,9 @@ package com.example.eshop.controller.rest;
 import com.example.eshop.dto.ProductDto;
 import com.example.eshop.dto.mapper.ProductMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.Product;
+import com.example.eshop.model.product.Product;
 import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
