@@ -12,6 +12,7 @@ small-eshop - demo fullstack web shop project
 * Spring Security
 * Spring Validation
 * Spring Cache
+* Spring Mail
 
 ## Frontend
 * HTML, CSS, JS
@@ -21,9 +22,19 @@ small-eshop - demo fullstack web shop project
 
 ## Databases
 ### RDBMS
-* Postgresql</li>
-* MongoDB</li>
+* Postgresql
+* MongoDB
+* JPA/Hibernate
 ### Migrations
-* Flyway</li>
-* Spring Validation</li>
-* Spring Cache</li>
+* Flyway
+* Spring Validation
+* Spring Cache
+
+## Code Write
+* Lombok
+* Mapstruct
+
+## Services
+* Github actions
+* Docker & docker compose
+* Maildev
