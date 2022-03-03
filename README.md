@@ -1,6 +1,6 @@
 # small-eshop
 
-![build](https://img.shields.io/github/workflow/status/iNikitaGricenko/small-eshop/actions.yml?style=for-the-badge)
+![build](https://img.shields.io/github/workflow/status/iNikitaGricenko/small-eshop/GitHub%20Actions?style=for-the-badge)
 <br>
 small-eshop - demo fullstack web shop project
 
