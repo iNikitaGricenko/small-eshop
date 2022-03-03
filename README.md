@@ -1,6 +1,7 @@
 # small-eshop
 
-![build](https://github.com/iNikitaGricenko/small-eshop/actions/workflows/<WORKFLOW_FILE>/badge.svg)
+![build](https://img.shields.io/github/workflow/status/iNikitaGricenko/small-eshop/actions.yml?style=for-the-badge)
+<br>
 small-eshop - demo fullstack web shop project
 
 # Technologies
