@@ -1,9 +1,8 @@
 package com.example.eshop.validator;
 
 import com.example.eshop.dto.OrderDto;
-import com.example.eshop.model.CustomUserDetails;
+import com.example.eshop.model.user.CustomUserDetails;
 import com.example.eshop.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 

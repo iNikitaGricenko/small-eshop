@@ -5,7 +5,7 @@ import com.example.eshop.dto.UserVerificationDto;
 import com.example.eshop.dto.mapper.UserMapper;
 import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.User;
 import com.example.eshop.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

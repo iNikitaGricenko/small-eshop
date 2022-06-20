@@ -1,7 +1,7 @@
 package com.example.eshop.config;
 
-import com.example.eshop.component.AuthenticationFailureHandler;
-import com.example.eshop.component.AuthenticationSuccessHandler;
+import com.example.eshop.handler.AuthenticationFailureHandler;
+import com.example.eshop.handler.AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

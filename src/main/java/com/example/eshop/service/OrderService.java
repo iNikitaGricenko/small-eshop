@@ -1,9 +1,9 @@
 package com.example.eshop.service;
 
 import com.example.eshop.exception.ObjectNotFoundException;
-import com.example.eshop.model.Order;
-import com.example.eshop.model.Product;
-import com.example.eshop.model.User;
+import com.example.eshop.model.order.Order;
+import com.example.eshop.model.product.Product;
+import com.example.eshop.model.user.User;
 import com.example.eshop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.example.eshop.exception.handler;
+package com.example.eshop.handler;
 
 import com.example.eshop.exception.EmailExistsException;
 import com.example.eshop.exception.ObjectNotFoundException;

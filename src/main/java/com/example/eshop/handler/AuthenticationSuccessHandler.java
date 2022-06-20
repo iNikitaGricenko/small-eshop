@@ -1,7 +1,7 @@
-package com.example.eshop.component;
+package com.example.eshop.handler;
 
-import com.example.eshop.model.CustomUserDetails;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.CustomUserDetails;
+import com.example.eshop.model.user.User;
 import com.example.eshop.service.UserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

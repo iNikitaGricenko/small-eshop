@@ -3,7 +3,7 @@ package com.example.eshop.dto.mapper;
 import com.example.eshop.dto.UserCreatorDto;
 import com.example.eshop.dto.UserDto;
 import com.example.eshop.dto.UserVerificationDto;
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

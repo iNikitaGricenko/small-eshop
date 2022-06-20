@@ -1,6 +1,6 @@
 package com.example.eshop.service;
 
-import com.example.eshop.model.User;
+import com.example.eshop.model.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.mail.javamail.JavaMailSender;

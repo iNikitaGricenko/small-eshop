@@ -1,4 +1,4 @@
-package com.example.eshop.model;
+package com.example.eshop.model.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,4 +50,20 @@ public class CustomUserDetails implements UserDetails {
         return user.isActivated();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User userFromObject = ((CustomUserDetails) o).user;
+        return user.equals(userFromObject);
+    }
+
+    @Override
+    public int hashCode() {
+        return user.hashCode();
+    }
 }

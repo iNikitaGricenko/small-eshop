@@ -5,6 +5,7 @@ import com.example.eshop.dto.mapper.ProductMapper;
 import com.example.eshop.exception.ObjectNotFoundException;
 import com.example.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     public Page<ProductDto> getAll(Pageable pageable) {
-        return productService.getAllById(pageable)
+        return productService.getAll(pageable)
                 .map(productMapper::toDto);
     }
 
